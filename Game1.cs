@@ -19,6 +19,12 @@ namespace TDJ_PJ2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
+            // Changing the game window size
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
