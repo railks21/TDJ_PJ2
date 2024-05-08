@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TDJ_PJ2;
 
@@ -12,25 +13,28 @@ public class SceneManager
     #region Fields
     //public ScoreManager Score;
     public SceneType Type {get; set;}
+    public object Score { get; private set; }
+
     public IScene CurrentScene;
     private bool m_IsSceneChanged;
+    private GraphicsDevice _graphicsDevice;
     #endregion
 
     #region Constructor
-    public SceneManager()
+    public SceneManager(GraphicsDevice graphicsDevice)
     {
         //Score = new ScoreManager();
 
         Type = SceneType.Menu;
-        CurrentScene = new MainMenuScene();
+        CurrentScene = new MainMenuScene(graphicsDevice);
 
         m_IsSceneChanged = false;
 
         // Subscribing to events
-        //MainMenuScene.SceneChangeEvent += OnSceneChange;
+        MainMenuScene.SceneChangeEvent += OnSceneChange;
         //GameScene.SceneChangeEvent += OnSceneChange;
-        //HelpScene.SceneChangeEvent += OnSceneChange;
-        //CreditsScene.SceneChangeEvent += OnSceneChange;
+        HelpScene.SceneChangeEvent += OnSceneChange;
+        CreditsScene.SceneChangeEvent += OnSceneChange;
         //OverScene.SceneChangeEvent += OnSceneChange;
         //EntityManager.SceneChangeEvent += OnSceneChange;
     }
@@ -48,20 +52,20 @@ public class SceneManager
         switch(Type)
         {
             case SceneType.Menu:
-                CurrentScene = new MainMenuScene();
-                break;
+                CurrentScene = new MainMenuScene(_graphicsDevice);
+            break;
             //case SceneType.Game:
             //    CurrentScene = new GameScene(Score);
             //    break;
-            //case SceneType.Help:
-            //    CurrentScene = new HelpScene();
-            //    break;
-            //case SceneType.Credits:
-            //    CurrentScene = new CreditsScene();
-            //    break;
-            //case SceneType.Over:
-            //    CurrentScene = new OverScene(Score);
-            //    break;
+            case SceneType.Help:
+                CurrentScene = new HelpScene();
+            break;
+            case SceneType.Credits:
+                CurrentScene = new CreditsScene();
+            break;
+                //case SceneType.Over:
+                //    CurrentScene = new OverScene(Score);
+                //    break;
         }
 
         // Making sure that the scene loads once not every frame
@@ -74,14 +78,17 @@ public class SceneManager
         CurrentScene.Render(spriteBatch);
     }
 
-    //public void OnSceneChange(SceneType sceneType)
-    //{
-    //    Type = sceneType;
+    public void OnSceneChange(SceneType sceneType)
+    {
+        Type = sceneType;
 
-    //    // Resetting the score when the game is replayed
-    //    if (Type == SceneType.Game);
+        // Resetting the score when the game is replayed
+        if (Type == SceneType.Game)
+        {
+            Score = 0;
+        }
 
-    //    m_IsSceneChanged = true;
-    //}
+        m_IsSceneChanged = true;
+    }
     #endregion
 }

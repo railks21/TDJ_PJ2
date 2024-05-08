@@ -37,7 +37,7 @@ namespace TDJ_PJ2
             Window.Position = Point.Zero;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
-            
+
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -49,7 +49,7 @@ namespace TDJ_PJ2
 
             AssetManager.Instance().LoadAssets(Content);
 
-            Scenes = new SceneManager();
+            Scenes = new SceneManager(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
