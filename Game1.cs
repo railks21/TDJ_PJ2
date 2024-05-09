@@ -16,7 +16,10 @@ namespace TDJ_PJ2
         public static int ScreenHeight;
         #endregion
 
+        #region Managers
+        public TileManager Tiles;
         public SceneManager Scenes;
+        #endregion
 
         public Game1()
         {
@@ -47,8 +50,13 @@ namespace TDJ_PJ2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Assets init
             AssetManager.Instance().LoadAssets(Content);
 
+            // Tiles init
+            Tiles = new TileManager();
+
+            // Scenes init
             Scenes = new SceneManager(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
@@ -75,7 +83,7 @@ namespace TDJ_PJ2
 
             #region Managers render
             // Tiles render
-            //Tiles.Render(_spriteBatch);
+            Tiles.Render(_spriteBatch);
 
             // Scenes render
             Scenes.Render(_spriteBatch);

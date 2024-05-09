@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace TDJ_PJ2;
 
@@ -24,9 +23,10 @@ public class SceneManager
     public SceneManager(GraphicsDevice graphicsDevice)
     {
         //Score = new ScoreManager();
+        _graphicsDevice = graphicsDevice;
 
         Type = SceneType.Menu;
-        CurrentScene = new MainMenuScene(graphicsDevice);
+        CurrentScene = new MainMenuScene(_graphicsDevice);
 
         m_IsSceneChanged = false;
 
@@ -58,10 +58,10 @@ public class SceneManager
             //    CurrentScene = new GameScene(Score);
             //    break;
             case SceneType.Help:
-                CurrentScene = new HelpScene();
+                CurrentScene = new HelpScene(_graphicsDevice);
             break;
             case SceneType.Credits:
-                CurrentScene = new CreditsScene();
+                CurrentScene = new CreditsScene(_graphicsDevice);
             break;
                 //case SceneType.Over:
                 //    CurrentScene = new OverScene(Score);

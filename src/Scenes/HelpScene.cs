@@ -14,16 +14,23 @@ public class HelpScene : IScene
     #region Fields
     private string m_Title, m_ToMenuText;
     private KeyboardState m_CurrentState, m_PreviousState;
+    private Texture2D backgroundTexture;
+    private GraphicsDevice _graphicsDevice;
     #endregion
 
     #region Constructor
-    public HelpScene()
+    public HelpScene(GraphicsDevice graphicsDevice)
     {
+        _graphicsDevice = graphicsDevice;
+
         m_Title = "HELP";
         m_ToMenuText = "[M] MENU";
 
         m_CurrentState = Keyboard.GetState();
         m_PreviousState = m_CurrentState;
+
+        // Render texture background
+        backgroundTexture = AssetManager.Instance().GetBackground("Background");
     }
     #endregion
 
@@ -43,6 +50,9 @@ public class HelpScene : IScene
         SpriteFont largeFont = AssetManager.Instance().GetFont("Large");
         SpriteFont mediumFont = AssetManager.Instance().GetFont("Medium");
         SpriteFont smallFont = AssetManager.Instance().GetFont("Small");
+
+        // Draw background menu
+        spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
 
         // Title
         spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.CadetBlue);
