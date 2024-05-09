@@ -15,6 +15,7 @@ public class MainMenuScene : IScene
     private string m_Title, m_PlayText, m_SettingsText, m_ScoresText, m_HelpText, m_CreditsText, m_ExitText;
     private KeyboardState m_CurrentState, m_PreviousState;
     private Rectangle playHitbox, settingsHitbox, scoreHitbox, helpHitbox, creditsHitbox, exitHitbox;
+    private Texture2D backgroundTexture;
     private GraphicsDevice _graphicsDevice;
     #endregion
 
@@ -33,6 +34,9 @@ public class MainMenuScene : IScene
 
         m_CurrentState = Keyboard.GetState();
         m_PreviousState = m_CurrentState;
+
+        // Render texture background
+        backgroundTexture = AssetManager.Instance().GetBackground("Background");
     }
     #endregion
 
@@ -104,6 +108,9 @@ public class MainMenuScene : IScene
         helpTextPosition.Y += 330.0f;
         creditTextPosition.Y += 380.0f;
         exitTextPosition.Y += 430.0f;
+
+        // Draw background menu
+        spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
 
         // Title render
         spriteBatch.DrawString(largeFont, m_Title, Game1.CenterText(largeFont, m_Title) + new Vector2(0, 10.0f), Color.CadetBlue);
