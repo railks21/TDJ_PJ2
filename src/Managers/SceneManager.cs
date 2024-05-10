@@ -17,13 +17,15 @@ public class SceneManager
     public IScene CurrentScene;
     private bool m_IsSceneChanged;
     private GraphicsDevice _graphicsDevice;
+    private GraphicsDeviceManager _graphics;
     #endregion
 
     #region Constructor
-    public SceneManager(GraphicsDevice graphicsDevice)
+    public SceneManager(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
     {
         //Score = new ScoreManager();
         _graphicsDevice = graphicsDevice;
+        _graphics = graphics;
 
         Type = SceneType.Menu;
         CurrentScene = new MainMenuScene(_graphicsDevice);
@@ -32,9 +34,10 @@ public class SceneManager
 
         // Subscribing to events
         MainMenuScene.SceneChangeEvent += OnSceneChange;
-        //GameScene.SceneChangeEvent += OnSceneChange;
+        GameScene.SceneChangeEvent += OnSceneChange;
         HelpScene.SceneChangeEvent += OnSceneChange;
         CreditsScene.SceneChangeEvent += OnSceneChange;
+        _graphics = graphics;
         //OverScene.SceneChangeEvent += OnSceneChange;
         //EntityManager.SceneChangeEvent += OnSceneChange;
     }
@@ -54,9 +57,9 @@ public class SceneManager
             case SceneType.Menu:
                 CurrentScene = new MainMenuScene(_graphicsDevice);
             break;
-            //case SceneType.Game:
-            //    CurrentScene = new GameScene(Score);
-            //    break;
+            case SceneType.Game:
+                CurrentScene = new GameScene(_graphicsDevice, _graphics);
+            break;
             case SceneType.Help:
                 CurrentScene = new HelpScene(_graphicsDevice);
             break;
