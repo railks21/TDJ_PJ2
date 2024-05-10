@@ -57,7 +57,7 @@ namespace TDJ_PJ2
             Tiles = new TileManager();
 
             // Scenes init
-            Scenes = new SceneManager(GraphicsDevice);
+            Scenes = new SceneManager(GraphicsDevice, _graphics);
 
             // TODO: use this.Content to load your game content here
         }
