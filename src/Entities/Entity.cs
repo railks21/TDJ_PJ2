@@ -40,6 +40,8 @@ public class StaticEntity : IEntity
     #endregion
 
     #region Delegates
+    public virtual Rectangle Hitbox => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+
     // Collision delegates
     //public delegate void BulletCollision(Bullet bullet, Zombie zombie);
     public delegate void BarricadeCollision(Zombie zombie);
@@ -119,6 +121,11 @@ public class DynamicEntity : StaticEntity
     #endregion
 
     #region Constructor
+    // HitBox Zombie
+    //public override Rectangle Hitbox => new Rectangle((int)Position.X, (int)Position.Y, 64, 64);
+
+    public override Rectangle Hitbox => new Rectangle((int)Position.X - 32, (int)Position.Y - 32, 64, 64);
+
     public DynamicEntity(Vector2 position, Texture2D texture, int maxHealth)
         :base(position, texture, maxHealth)
     {

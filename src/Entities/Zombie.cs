@@ -28,7 +28,7 @@ public class Zombie : DynamicEntity
 
     #region Events
     // Collision events
-    public static event BarricadeCollision BarricadeCollisionEvent;
+    //public static event BarricadeCollision BarricadeCollisionEvent;
 
     // Audio events
     public static event BarricadeHitAudio BarricadeHitAudioEvent;
@@ -40,7 +40,7 @@ public class Zombie : DynamicEntity
     #endregion
 
     #region Constructor
-        public Zombie(Vector2 position, Texture2D texture, int health, int damage, float speed, List<Vector2> pathPoints, char[,] map)
+    public Zombie(Vector2 position, Texture2D texture, int health, int damage, float speed, List<Vector2> pathPoints, char[,] map)
             : base(position, texture, health)
         {
         Velocity = new Vector2(0.0f, speed);
@@ -70,14 +70,6 @@ public class Zombie : DynamicEntity
             m_BarricadePoints.Add(new Vector2(i * 32.0f, Game1.ScreenHeight - 160.0f));
         }
     }
-
-    //public Zombie(Vector2 position, Texture2D texture, int health, int damage, float speed, List<Vector2> pathPoints, char[,] map)
-    //    : this(position, texture, health, damage, speed, map)
-    //{
-    //    m_PathPoints = pathPoints;
-    //    m_CurrentTarget = m_PathPoints[0];
-    //    m_Speed = speed;
-    //}
     #endregion
 
     #region Methods
@@ -110,28 +102,19 @@ public class Zombie : DynamicEntity
 
     public override void CollisionUpdate(List<IEntity> entities)
     {
-        // Collision: Zombie VS. Barricade(or rather just checking the distance between the points and the zombie)
-
-        foreach (var point in m_PathPoints)
+        foreach (var entity in entities)
         {
-            if (Vector2.Distance(Position, point) <= 4)
+            if (entity is DynamicEntity dynamicEntity)
             {
-                // Here you can add the logic for what happens when the zombie reaches a path point
-                NextPathPoint();
+                // Ajuste a lógica de colisão para levar em conta o novo tamanho da hitbox
+                Rectangle expandedHitbox = new Rectangle(Hitbox.X - 32, Hitbox.Y - 32, Hitbox.Width + 64, Hitbox.Height + 64);
+
+                if (expandedHitbox.Intersects(dynamicEntity.Hitbox))
+                {
+                    // Lógica para lidar com a colisão entre o zombie e a outra entidade
+                }
             }
         }
-
-        foreach (var point in m_BarricadePoints)
-        {
-            if(Vector2.Distance(Position, point) <= 4)
-            {
-                BarricadeCollisionEvent?.Invoke(this);
-
-                if(IsAbleToAttack)                    
-                    BarricadeHitAudioEvent?.Invoke();
-                else Damage = 0;
-            }
-        } 
     }
 
     public override void Move(GameTime gameTime)

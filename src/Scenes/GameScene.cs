@@ -97,16 +97,16 @@ namespace TDJ_PJ2
                     {
                         case '#':
                             spriteBatch.Draw(floor, position, Color.White);
-                            break;
+                        break;
                         case 'C':
                             spriteBatch.Draw(path, position, Color.White);
-                            break;
+                        break;
                         case 'S':
                             spriteBatch.Draw(path, position, Color.White);
-                            break;
+                        break;
                         case 'F':
                             spriteBatch.Draw(path, position, Color.White);
-                            break;
+                        break;
                     }
                 }
             }
