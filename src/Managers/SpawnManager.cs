@@ -85,7 +85,6 @@ namespace TDJ_PJ2
 
         private void SpawnEntity()
         {
-
             if (m_EntityManager.Entities.Count == 0)
             {
                 foreach (Vector2 spawnPoint in m_SpawnPoints)

@@ -18,7 +18,7 @@ public class Zombie : DynamicEntity
     public ZombieType Type {get; private set;}
 
     private int m_AttackCoolDown;
-    private List<Vector2> m_BarricadePoints = new List<Vector2>();
+    private List<Vector2> m_FinalPoint = new List<Vector2>();
     private List<Vector2> m_PathPoints;
     private int m_CurrentPathIndex = 0;
     private Vector2 m_CurrentTarget;
@@ -28,7 +28,7 @@ public class Zombie : DynamicEntity
 
     #region Events
     // Collision events
-    //public static event BarricadeCollision BarricadeCollisionEvent;
+    public static event BarricadeCollision BarricadeCollisionEvent;
 
     // Audio events
     public static event BarricadeHitAudio BarricadeHitAudioEvent;
@@ -62,12 +62,22 @@ public class Zombie : DynamicEntity
         m_PathPoints = pathPoints;
         m_Map = map;
         m_CurrentTarget = m_PathPoints[0];
-        m_Speed = speed;
+        m_Speed = 3;
 
         // Adding the barricade points for collision
-        for (int i = 0; i < 26; i++)
+        for (int x = 0; x < m_Map.GetLength(0); x++)
         {
-            m_BarricadePoints.Add(new Vector2(i * 32.0f, Game1.ScreenHeight - 160.0f));
+            for (int y = 0; y < m_Map.GetLength(1); y++)
+            {
+                if (map[x, y] == 'F')
+                {
+                    //// Calcula a posição do tile no mundo
+                    //Vector2 tilePosition = new Vector2(x * 64, y * 64);
+                    //// Adiciona o ponto do tile "F" para colisão
+                    //m_FinalPoint.Add(tilePosition);
+                    m_FinalPoint.Add(new Vector2(x * 64, y * 64));
+                }
+            }
         }
     }
     #endregion
@@ -113,6 +123,19 @@ public class Zombie : DynamicEntity
                 {
                     // Lógica para lidar com a colisão entre o zombie e a outra entidade
                 }
+            }
+        }
+
+        foreach (var point in m_FinalPoint)
+        {
+            if (Vector2.Distance(Position, point) <= 64)
+            {
+                BarricadeCollisionEvent?.Invoke(this);
+
+                if (IsAbleToAttack)
+                    BarricadeHitAudioEvent?.Invoke();
+                else
+                    Damage = 0;
             }
         }
     }
