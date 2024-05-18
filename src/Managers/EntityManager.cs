@@ -40,10 +40,9 @@ public class EntityManager
     #region Methods
     public void Update(GameTime gameTime)
     {
-        // Deleting the entity from the list if it's inactive
+        // Deletando a entidade da lista se estiver inativa
         for (int i = 0; i < Entities.Count; i++)
         {
-            // Decreasing the "i" so not to skip over any entities
             if (!Entities[i].IsActive)
             {
                 Entities.RemoveAt(i);
@@ -51,17 +50,17 @@ public class EntityManager
             }
         }
 
-        // Updating the entities
+        // Atualizando as entidades
         foreach (var entity in Entities)
         {
-            // Update for the collisions
+            // Atualização para as colisões
             entity.CollisionUpdate(Entities);
 
-            // Normal entity update
+            // Atualização normal da entidade
             entity.Update(gameTime);
         }
 
-        // Ending the game once the barricade is broken
+        // Terminando o jogo uma vez que a barricada seja destruída
         if (BarricadeHealth <= 0)
             SceneChangeEvent?.Invoke(SceneType.Over);
     }
@@ -74,11 +73,11 @@ public class EntityManager
         }
     }
 
-    public void OnBarricadeCollision(Zombie zombie)
-    {
-        BarricadeHealth -= zombie.Damage;
+    //public void OnBarricadeCollision(Zombie zombie)
+    //{
+    //    BarricadeHealth -= zombie.Damage;
 
-        zombie.Velocity = new Vector2(0.0f, 0.0f);
-    }
+    //    zombie.Velocity = new Vector2(0.0f, 0.0f);
+    //}
     #endregion
 }

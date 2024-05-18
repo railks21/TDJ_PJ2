@@ -93,7 +93,7 @@ namespace TDJ_PJ2
                     // Spawn either a basic or a brute zombie, depending on the spawn counter
                     if (m_SpawnCounter % 5 == 0)
                     {
-                        Rectangle hitBox = GetZombieHitBox(new Vector2(spawnPoint.X + 32, spawnPoint.Y + 32));
+                        Rectangle hitBox = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, 64, 64);
                         m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X + 32, spawnPoint.Y + 32),
                                                                 AssetManager.Instance().GetSprite("BruteZombie"),
                                                                 BRUTE_HEALTH,
@@ -104,8 +104,8 @@ namespace TDJ_PJ2
                     }
                     else
                     {
-                        Rectangle hitBox = GetZombieHitBox(new Vector2(spawnPoint.X + 32, spawnPoint.Y + 32));
-                        m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X + 32, spawnPoint.Y + 32),
+                        Rectangle hitBox = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, 64, 64);
+                        m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X, spawnPoint.Y),
                                                                 AssetManager.Instance().GetSprite("BasicZombie"),
                                                                 BASIC_HEALTH,
                                                                 BASIC_DAMAGE,
@@ -177,11 +177,6 @@ namespace TDJ_PJ2
             }
 
             return pathPoints;
-        }
-
-        private Rectangle GetZombieHitBox(Vector2 position)
-        {
-            return new Rectangle((int)position.X - 32, (int)position.Y - 32, 64, 64);
         }
 
         private bool IsInMap(int x, int y)
