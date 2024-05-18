@@ -92,6 +92,8 @@ namespace TDJ_PJ2
             // Update the EntityManager
             Entities.Update(gameTime);
 
+            // Player
+            player.Update(gameTime);
         }
 
         public void Render(SpriteBatch spriteBatch)
