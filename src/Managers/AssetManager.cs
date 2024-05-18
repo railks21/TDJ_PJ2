@@ -45,12 +45,14 @@ public sealed class AssetManager
     // Loads only the sprites
     public void LoadSprites(ContentManager content)
     {
-        m_SpriteDict.Add("Player", content.Load<Texture2D>("Sprites/player"));
+        //m_SpriteDict.Add("Player", content.Load<Texture2D>("Sprites/player"));
         m_SpriteDict.Add("BasicZombie", content.Load<Texture2D>("Sprites/basic_zombie"));
         m_SpriteDict.Add("DenizenZombie", content.Load<Texture2D>("Sprites/denizen_zombie"));
         m_SpriteDict.Add("BruteZombie", content.Load<Texture2D>("Sprites/brute_zombie"));
         m_SpriteDict.Add("Bullet", content.Load<Texture2D>("Sprites/pistol_bullet"));
         m_SpriteDict.Add("Shell", content.Load<Texture2D>("Sprites/shootgun_shell"));
+
+        m_SpriteDict.Add("Player4", content.Load<Texture2D>("Sprites/Character4"));
     }
 
     // Loads only the tiles
