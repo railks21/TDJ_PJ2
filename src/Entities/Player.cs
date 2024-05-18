@@ -32,6 +32,10 @@ namespace TDJ_PJ2.src.Entities
 
         public void Draw(SpriteBatch sb) 
         {
+            // codigo que devia funcionar, gameScene.tileSize = 64
+            //Vector2 pos = position.ToVector2() * gameScene.tileSize;
+            //Rectangle rect = new Rectangle(pos.ToPoint(), new Point(gameScene.tileSize));
+
             Vector2 pos = position.ToVector2() * 64;
             Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
             sb.Draw(texture, rect, Color.White);
