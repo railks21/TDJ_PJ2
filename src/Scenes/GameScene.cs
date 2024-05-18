@@ -112,7 +112,7 @@ namespace TDJ_PJ2
             }
 
             // Draw text Rounds, Health, Money
-            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Rounds: " + "0" + "/" + "100", new Vector2(10.0f, 10.0f), Color.White);
+            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Rounds: " + Spawner.Rounds + "/" + Spawner.MaxRounds, new Vector2(10.0f, 10.0f), Color.White);
             spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Health: " + Entities.Health, new Vector2(10.0f, 60.0f), Color.White);
             spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: ", new Vector2(10.0f, 110.0f), Color.White);
 

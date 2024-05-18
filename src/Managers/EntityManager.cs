@@ -80,13 +80,13 @@ public class EntityManager
     {
         Health -= 1;
 
-        // Remover o zumbi da lista de entidades
+        // Remove  zumbi from list
         for (int i = Entities.Count - 1; i >= 0; i--)
         {
             if (Entities[i] == zombie)
-            {
-                Entities.RemoveAt(i); // Remover o zumbi da lista
-                break; // Interromper o loop assim que o zumbi for removido
+            {   
+                Entities.RemoveAt(i); 
+                break;
             }
         }
     }
