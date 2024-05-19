@@ -52,16 +52,17 @@ public sealed class AssetManager
         m_SpriteDict.Add("Bullet", content.Load<Texture2D>("Sprites/pistol_bullet"));
         m_SpriteDict.Add("Shell", content.Load<Texture2D>("Sprites/shootgun_shell"));
 
-        m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Character1"));
-        m_SpriteDict.Add("Player2", content.Load<Texture2D>("Sprites/Character2"));
-        m_SpriteDict.Add("Player3", content.Load<Texture2D>("Sprites/Character3"));
-        m_SpriteDict.Add("Player4", content.Load<Texture2D>("Sprites/Character4"));
-        m_SpriteDict.Add("Player5", content.Load<Texture2D>("Sprites/Character5"));
-        m_SpriteDict.Add("Player6", content.Load<Texture2D>("Sprites/Character6"));
-        m_SpriteDict.Add("Player7", content.Load<Texture2D>("Sprites/Character7"));
-        m_SpriteDict.Add("Player8", content.Load<Texture2D>("Sprites/Character8"));
-        m_SpriteDict.Add("Player9", content.Load<Texture2D>("Sprites/Character9"));
-        m_SpriteDict.Add("Player10", content.Load<Texture2D>("Sprites/Character10"));
+        m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Mage_Sheet"));
+        //m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Character1"));
+        //m_SpriteDict.Add("Player2", content.Load<Texture2D>("Sprites/Character2"));
+        //m_SpriteDict.Add("Player3", content.Load<Texture2D>("Sprites/Character3"));
+        //m_SpriteDict.Add("Player4", content.Load<Texture2D>("Sprites/Character4"));
+        //m_SpriteDict.Add("Player5", content.Load<Texture2D>("Sprites/Character5"));
+        //m_SpriteDict.Add("Player6", content.Load<Texture2D>("Sprites/Character6"));
+        //m_SpriteDict.Add("Player7", content.Load<Texture2D>("Sprites/Character7"));
+        //m_SpriteDict.Add("Player8", content.Load<Texture2D>("Sprites/Character8"));
+        //m_SpriteDict.Add("Player9", content.Load<Texture2D>("Sprites/Character9"));
+        //m_SpriteDict.Add("Player10", content.Load<Texture2D>("Sprites/Character10"));
 
     }
 

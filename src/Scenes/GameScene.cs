@@ -24,7 +24,7 @@ namespace TDJ_PJ2
         public char[,] level;
 
         private KeyboardState m_CurrentState, m_PreviousState;
-        private Texture2D floor, path, player4;
+        private Texture2D floor, path, player1;
         private GraphicsDevice _graphicsDevice;
         private GraphicsDeviceManager _graphics;
         private List<Point> boxes;
@@ -60,7 +60,7 @@ namespace TDJ_PJ2
             // Render texture background
             floor = AssetManager.Instance().GetTile("Grass");
             path = AssetManager.Instance().GetTile("WitheredGrass");
-            player4 = AssetManager.Instance().GetSprite("Player4");
+            player1 = AssetManager.Instance().GetSprite("Player1");
 
             _graphics = graphics;
 
@@ -155,7 +155,7 @@ namespace TDJ_PJ2
                     //player
                     if (linhas[y][x] == 'P')
                     {
-                        player = new Player(player4, x, y);
+                        player = new Player(player1, x, y);
                     }
 
                 }
