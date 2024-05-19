@@ -114,6 +114,8 @@ namespace TDJ_PJ2
         {
             foreach (Vector2 spawnPoint in m_SpawnPoints)
             {
+                var (pathPoints, currentRow) = GetPathPoints(spawnPoint);
+
                 // Spawn either a basic or a brute zombie, depending on the spawn counter
                 if (m_SpawnCounter % 5 == 0)
                 {
@@ -123,8 +125,9 @@ namespace TDJ_PJ2
                                                             BRUTE_HEALTH,
                                                             BRUTE_DAMAGE,
                                                             BRUTE_SPEED,
-                                                            GetPathPoints(spawnPoint),
-                                                            m_Map));
+                                                            pathPoints,
+                                                            m_Map,
+                                                            currentRow));
                 }
                 else
                 {
@@ -134,13 +137,14 @@ namespace TDJ_PJ2
                                                             BASIC_HEALTH,
                                                             BASIC_DAMAGE,
                                                             BASIC_SPEED,
-                                                            GetPathPoints(spawnPoint),
-                                                            m_Map));
+                                                            pathPoints,
+                                                            m_Map,
+                                                            currentRow));
                 }
             }
         }
 
-        private List<Vector2> GetPathPoints(Vector2 spawnPoint)
+        private (List<Vector2> pathPoints, int currentRow) GetPathPoints(Vector2 spawnPoint)
         {
             // Get the path points
             List<Vector2> pathPoints = new List<Vector2>();
@@ -159,6 +163,7 @@ namespace TDJ_PJ2
             // Directions
             int dx = 0;
             int dy = 0;
+            int currentRow = 1; // Default row
 
             while (m_Map[startX, startY] != 'F')
             {
@@ -167,21 +172,25 @@ namespace TDJ_PJ2
                 {
                     dx = 1;
                     dy = 0;
+                    currentRow = 1; // Right
                 }
                 else if (IsInMap(startX - 1, startY) && m_Map[startX - 1, startY] == 'C' && dx != 1)
                 {
                     dx = -1;
                     dy = 0;
+                    currentRow = 3; // Left
                 }
                 else if (IsInMap(startX, startY + 1) && m_Map[startX, startY + 1] == 'C' && dy != -1)
                 {
                     dx = 0;
                     dy = 1;
+                    currentRow = 2; // Down
                 }
                 else if (IsInMap(startX, startY - 1) && m_Map[startX, startY - 1] == 'C' && dy != 1)
                 {
                     dx = 0;
                     dy = -1;
+                    currentRow = 0; // Up
                 }
                 else
                 {
@@ -199,7 +208,7 @@ namespace TDJ_PJ2
                 pathPoints.Add(new Vector2(x, y));
             }
 
-            return pathPoints;
+            return (pathPoints, currentRow);
         }
 
         private bool IsInMap(int x, int y)

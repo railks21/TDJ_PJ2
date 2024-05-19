@@ -34,7 +34,7 @@ public class EntityManager
         //Entities.Add(new Player(new Vector2(128.0f, Game1.ScreenHeight - 100.0f), AssetManager.Instance().GetSprite("Player"), 100));
 
         // Subscribing to events(doing a collision event here since the health for the barricade is here. Very bad design)
-        Zombie.BarricadeCollisionEvent += FinalDestination;
+        Zombie.FinalDestionationEvent += FinalDestination;
     }
     #endregion
 

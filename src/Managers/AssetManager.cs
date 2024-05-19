@@ -51,6 +51,8 @@ public sealed class AssetManager
         m_SpriteDict.Add("BruteZombie", content.Load<Texture2D>("Sprites/brute_zombie"));
         m_SpriteDict.Add("Bullet", content.Load<Texture2D>("Sprites/pistol_bullet"));
         m_SpriteDict.Add("Shell", content.Load<Texture2D>("Sprites/shootgun_shell"));
+
+        m_SpriteDict.Add("ZombieG", content.Load<Texture2D>("Sprites/zombieG"));
     }
 
     // Loads only the tiles
@@ -65,8 +67,6 @@ public sealed class AssetManager
         m_TileDict.Add("Rock", content.Load<Texture2D>("Tiles/rock"));
         m_TileDict.Add("WitheredBush", content.Load<Texture2D>("Tiles/withered_bush"));
         m_TileDict.Add("WitheredGrass", content.Load<Texture2D>("Tiles/withered_grass"));
-
-        m_TileDict.Add("GrassTest", content.Load<Texture2D>("Tiles/grassTest"));
     }
 
     // Loads only the sounds
