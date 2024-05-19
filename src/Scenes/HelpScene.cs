@@ -55,7 +55,7 @@ public class HelpScene : IScene
         spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
 
         // Title
-        spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.CadetBlue);
+        spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.Black);
 
         // Controls
         spriteBatch.DrawString(mediumFont, "CONTROLS:", new Vector2(20.0f, 150.0f), Color.Blue);
@@ -67,7 +67,7 @@ public class HelpScene : IScene
         spriteBatch.DrawString(smallFont, "Use Q and E to switch between weapons", new Vector2(20.0f, 230.0f), Color.MediumPurple);
 
         // To menu text render
-        spriteBatch.DrawString(mediumFont, m_ToMenuText, new Vector2(Game1.CenterText(mediumFont, m_ToMenuText).X, 300.0f), Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_ToMenuText, new Vector2(Game1.CenterText(mediumFont, m_ToMenuText).X, 300.0f), Color.Black);
     }
     #endregion
 }

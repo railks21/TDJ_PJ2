@@ -44,7 +44,7 @@ public class StaticEntity : IEntity
 
     // Collision delegates
     //public delegate void BulletCollision(Bullet bullet, Zombie zombie);
-    public delegate void BarricadeCollision(Zombie zombie);
+    public delegate void TilesCollision(Zombie zombie);
     
     // Audio delegates 
     //public delegate void BulletShotAudio(BulletType bulletType);
