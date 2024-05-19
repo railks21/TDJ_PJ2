@@ -4,6 +4,8 @@ public enum SceneType
 {
     Menu,
     Game,
+    Settings,
+    Score,
     Help,
     Credits,
     Over

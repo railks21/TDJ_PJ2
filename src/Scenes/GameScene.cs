@@ -147,10 +147,10 @@ namespace TDJ_PJ2
             SpriteFont mediumFont = AssetManager.Instance().GetFont("Medium");
 
             // Pause title render
-            spriteBatch.DrawString(largeFont, m_PauseText, Game1.CenterText(largeFont, m_PauseText) - new Vector2(0.0f, 50.0f), Color.CadetBlue);
+            spriteBatch.DrawString(largeFont, m_PauseText, Game1.CenterText(largeFont, m_PauseText) - new Vector2(0.0f, 50.0f), Color.Black);
 
             // To menu text render
-            spriteBatch.DrawString(mediumFont, m_ToMenuText, Game1.CenterText(mediumFont, m_ToMenuText), Color.CadetBlue);
+            spriteBatch.DrawString(mediumFont, m_ToMenuText, Game1.CenterText(mediumFont, m_ToMenuText), Color.Black);
         }
         #endregion
     }
