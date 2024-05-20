@@ -33,6 +33,7 @@ namespace TDJ_PJ2
 
         //player
         private Player player;
+        private Vector2 playerPosition;
 
 
         // depois apagar caso o player nao recebe um vector2
@@ -155,7 +156,8 @@ namespace TDJ_PJ2
                     //player
                     if (linhas[y][x] == 'P')
                     {
-                        player = new Player(player1, x, y);
+                        playerPosition = new Vector2(x, y);
+                        player = new Player(player1,playerPosition);
                     }
 
                 }

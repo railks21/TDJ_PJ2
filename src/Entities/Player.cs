@@ -17,7 +17,7 @@ namespace TDJ_PJ2.src.Entities
     public class Player
     {
         // Player position
-        private Point position;
+        private Vector2 position {  get; set; }
 
         // Player texture
         private Texture2D texture;
@@ -27,7 +27,8 @@ namespace TDJ_PJ2.src.Entities
         private Texture2D[][] sprites;
         private Direction direction = Direction.Down;
         private Vector2 directionVector;
-        private int speed = 2; // NOTA: tem de ser divisor de tileSize
+        //private int speed = 2; // NOTA: tem de ser divisor de tileSize
+        private float speed = 10f;
 
         public int CurrentRow { get; set; }
         private int m_CurrentPathIndex = 0;
@@ -48,12 +49,10 @@ namespace TDJ_PJ2.src.Entities
         int test = 0;
 
         // Constructor
-        public Player(Texture2D texture, int x, int y)
+        public Player(Texture2D texture, Vector2 Position)
         {
             this.texture = texture;
-            position = new Point(x, y);
-
-            // initialize animation
+            position = Position;
             InitializeAnimation();
         }
 
@@ -92,50 +91,39 @@ namespace TDJ_PJ2.src.Entities
 
         public void Update(GameTime gameTime)
         {
-            if (delta > 0)
-            {
-                delta = (delta + speed) % 64;
-            }
-            else
-            {
-                KeyboardState kState = Keyboard.GetState();
+            // Get the elapsed time since the last frame
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (kState.IsKeyDown(Keys.A) || kState.IsKeyDown(Keys.Left))
-                {
-                    position.X--;
-                    delta = speed;
-                    CurrentRow = 7;
-                    InitializeAnimation();
-                    //direction = Direction.Left;
-                    //// directionVector = new Vector2(-1, 0);
-                    //directionVector = -Vector2.UnitX;
-                }
-                else if (kState.IsKeyDown(Keys.W) || kState.IsKeyDown(Keys.Up))
-                {
-                    position.Y--;
-                    delta = speed;
-                    CurrentRow = 13;
-                    InitializeAnimation();
-                    //direction = Direction.Up;                    
-                    //directionVector = -Vector2.UnitY;
-                }
-                else if (kState.IsKeyDown(Keys.S) || kState.IsKeyDown(Keys.Down))
-                {
-                    position.Y++;
-                    delta = speed;
-                    CurrentRow = 1;
-                    InitializeAnimation();
-                }
-                else if (kState.IsKeyDown(Keys.D) || kState.IsKeyDown(Keys.Right))
-                {
-                    position.X++;
-                    delta = speed;
-                    CurrentRow = 19;
-                    InitializeAnimation();
-                    //CurrentRow--;
-                    //InitializeAnimation();
-                }
+            // Get the keyboard state
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            // Create a copy of the current position
+            Vector2 newPosition = position;
+
+            // Move the player based on keyboard input
+            if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
+            {
+                newPosition.X -= speed * deltaTime;
+                CurrentRow = 7;
             }
+            if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
+            {
+                newPosition.X += speed * deltaTime;
+                CurrentRow = 19;
+            }
+            if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
+            {
+                newPosition.Y -= speed * deltaTime;
+                CurrentRow = 13;
+            }
+            if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
+            {
+                newPosition.Y += speed * deltaTime;
+                CurrentRow = 1;
+            }
+
+            // Update the position
+            position = newPosition;
 
             // update animation 
             UpdateAnimation(gameTime);
@@ -186,15 +174,15 @@ namespace TDJ_PJ2.src.Entities
 
         public void Draw(SpriteBatch sb) 
         {
-            Vector2 pos = position.ToVector2() * 64;
+            Vector2 pos = position * 64;
 
-            int frame = 0;
-            if (delta > 0)
-            {
-                pos -= (64 - delta) * directionVector;
-                float animSpeed = 8f;
-                frame = (int)((delta / speed) % ((int)animSpeed * 6) / animSpeed);
-            }
+            //int frame = 0;
+            //if (delta > 0)
+            //{
+            //    pos -= (64 - delta) * directionVector;
+            //    float animSpeed = 8f;
+            //    frame = (int)((delta / speed) % ((int)animSpeed * 6) / animSpeed);
+            //}
 
             Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
             //// sb.Draw(sprites[(int)direction][frame], rect, Color.White);
