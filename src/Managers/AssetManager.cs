@@ -67,6 +67,7 @@ public sealed class AssetManager
         m_TileDict.Add("Rock", content.Load<Texture2D>("Tiles/rock"));
         m_TileDict.Add("WitheredBush", content.Load<Texture2D>("Tiles/withered_bush"));
         m_TileDict.Add("WitheredGrass", content.Load<Texture2D>("Tiles/withered_grass"));
+        m_TileDict.Add("SideImage", content.Load<Texture2D>("Background/sideImage"));
     }
 
     // Loads only the sounds

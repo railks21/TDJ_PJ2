@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TDJ_PJ2;
@@ -18,14 +19,19 @@ public class SceneManager
     private bool m_IsSceneChanged;
     private GraphicsDevice _graphicsDevice;
     private GraphicsDeviceManager _graphics;
+    private ContentManager _contentManager;
+    private GameScene _gameScene;
     #endregion
 
     #region Constructor
-    public SceneManager(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
+    public SceneManager(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics, ContentManager contentManager)
     {
         //Score = new ScoreManager();
         _graphicsDevice = graphicsDevice;
         _graphics = graphics;
+        _contentManager = contentManager;
+
+        _gameScene = new GameScene(_graphicsDevice, _graphics, _contentManager);
 
         Type = SceneType.Menu;
         CurrentScene = new MainMenuScene(_graphicsDevice);
@@ -58,7 +64,7 @@ public class SceneManager
                 CurrentScene = new MainMenuScene(_graphicsDevice);
             break;
             case SceneType.Game:
-                CurrentScene = new GameScene(_graphicsDevice, _graphics);
+                CurrentScene = new GameScene(_graphicsDevice, _graphics, _contentManager);
             break;
             case SceneType.Help:
                 CurrentScene = new HelpScene(_graphicsDevice);

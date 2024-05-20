@@ -67,6 +67,18 @@
 /processorParam:TextureFormat=Color
 /build:Background/background.png
 
+#begin Background/sideImage.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/sideImage.png
+
 #begin Font/font_large.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
