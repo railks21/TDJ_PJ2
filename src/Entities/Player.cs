@@ -36,6 +36,9 @@ namespace TDJ_PJ2.src.Entities
         private int frameHeight = 48;
         private int framesPerRow = 6;
 
+        // Flag to track if the player was moving in the previous frame
+        private bool wasMoving = false;
+
         // Constructor
         public Player(Texture2D texture, Vector2 Position)
         {
@@ -160,6 +163,18 @@ namespace TDJ_PJ2.src.Entities
             if (moved)
             {
                 position = newPosition;
+                UpdateAnimation(gameTime);
+                wasMoving = true; // Player is moving
+            }
+            else
+            {
+                // Check if the player was moving in the previous frame
+                if (wasMoving)
+                {
+                    CurrentRow--; // Set to idle animation row
+                    InitializeAnimation();
+                    wasMoving = false; // Reset the flag
+                }
                 UpdateAnimation(gameTime);
             }
         }
