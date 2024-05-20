@@ -232,6 +232,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/sprite_sheet.png
 
+#begin Sprites/turretBullet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/turretBullet.png
+
 #begin Sprites/zombieG.png
 /importer:TextureImporter
 /processor:TextureProcessor
