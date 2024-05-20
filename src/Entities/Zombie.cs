@@ -94,7 +94,7 @@ namespace TDJ_PJ2
 
             // Define the dimensions of each frame in the spritesheet.
             int frameWidth = 48;
-            int frameHeight = 64;
+            int frameHeight = 65;
             int framesPerRow = 3;
 
             // Choose the desired row (0 for the first row, 1 for the second row, etc.).
