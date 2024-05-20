@@ -75,7 +75,7 @@ namespace TDJ_PJ2.src.Entities
             int currentRow = CurrentRow; // For example, choosing the third row.
 
             // Initialize the sourceRectangles array based on the number of frames.
-            sourceRectangles = new Rectangle[4];
+            sourceRectangles = new Rectangle[6];
             for (int i = 0; i < sourceRectangles.Length; i++)
             {
                 int x = (i % framesPerRow) * frameWidth;
@@ -188,19 +188,19 @@ namespace TDJ_PJ2.src.Entities
         {
             Vector2 pos = position.ToVector2() * 64;
 
-            ////int frame = 0;
-            ////if (delta > 0)
-            ////{
-            ////    pos -= (64 - delta) * directionVector;
-            ////    float animSpeed = 8f;
-            ////    frame = (int)((delta / speed) % ((int)animSpeed * sprites[(int)direction].Length) / animSpeed);
-            ////}
+            int frame = 0;
+            if (delta > 0)
+            {
+                pos -= (64 - delta) * directionVector;
+                float animSpeed = 8f;
+                frame = (int)((delta / speed) % ((int)animSpeed * 6) / animSpeed);
+            }
 
             Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
             //// sb.Draw(sprites[(int)direction][frame], rect, Color.White);
             //sb.Draw(texture, rect, Color.White);
 
-            // position na teoria devia ser Point, e nao um vector
+            
             sb.Draw(AssetManager.Instance().GetSprite("Player1"), rect, sourceRectangles[currentAnimationIndex], Color.White);
         }
 
