@@ -8,7 +8,11 @@ namespace TDJ_PJ2
         private GraphicsDevice graphicsDevice;
 
         public Vector2 Position { get; private set; }
-        public Matrix TransformMatrix => Matrix.CreateTranslation(-Position.X, -Position.Y, 0);
+        public float Zoom { get; set; } = 1.0f; // Default zoom level to 1 (no zoom)
+
+        public Matrix TransformMatrix =>
+            Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
+            Matrix.CreateScale(Zoom, Zoom, 1); // Apply zoom factor
 
         public Camera(GraphicsDevice graphicsDevice, Vector2 initialPosition)
         {
@@ -18,8 +22,7 @@ namespace TDJ_PJ2
 
         public void Follow(Vector2 targetPosition)
         {
-            // Adjust the camera's position to keep the target centered on the screen
-            Position = targetPosition - new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
+            Position = targetPosition - new Vector2(graphicsDevice.Viewport.Width / 2 / Zoom, graphicsDevice.Viewport.Height / 2 / Zoom);
         }
     }
 }

@@ -32,16 +32,13 @@ namespace TDJ_PJ2
 
         protected override void Initialize()
         {
-            // Utility variables init
             ScreenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             ScreenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-            // Changing the game window size
             Window.Position = Point.Zero;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
 
-            // Initialize camera with starting position
             camera = new Camera(GraphicsDevice, Vector2.Zero);
 
             _graphics.ApplyChanges();
@@ -52,17 +49,10 @@ namespace TDJ_PJ2
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // Assets init
             AssetManager.Instance().LoadAssets(Content);
 
-            // Tiles init
             Tiles = new TileManager();
-
-            // Scenes init
             Scenes = new SceneManager(GraphicsDevice, _graphics, _contentManager);
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
@@ -70,15 +60,31 @@ namespace TDJ_PJ2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // Update camera to follow player (camera will be updated in GameScene)
+            // Update camera to follow player
             if (Scenes.CurrentScene is GameScene gameScene)
             {
                 camera.Follow(gameScene.GetPlayerPosition());
             }
 
+            HandleZoom();
+
             Scenes.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void HandleZoom()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus) || Keyboard.GetState().IsKeyDown(Keys.Add))
+            {
+                camera.Zoom += 0.01f; // Zoom in
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.OemMinus) || Keyboard.GetState().IsKeyDown(Keys.Subtract))
+            {
+                camera.Zoom -= 0.01f; // Zoom out
+            }
+
+            camera.Zoom = MathHelper.Clamp(camera.Zoom, 0.5f, 3f); // Clamp zoom between 0.5 and 3
         }
 
         protected override void Draw(GameTime gameTime)
@@ -87,7 +93,6 @@ namespace TDJ_PJ2
 
             _spriteBatch.Begin(transformMatrix: camera.TransformMatrix);
 
-            // Managers render
             Tiles.Render(_spriteBatch);
             Scenes.Render(_spriteBatch);
 
@@ -96,7 +101,6 @@ namespace TDJ_PJ2
             base.Draw(gameTime);
         }
 
-        // A util function that will center a text based on its font and contents
         public static Vector2 CenterText(SpriteFont font, string text)
         {
             return new Vector2(ScreenWidth / 2 - font.MeasureString(text).X / 2,
