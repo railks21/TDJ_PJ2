@@ -25,18 +25,21 @@ public class GameScene : IScene
     public char[,] level;
 
     private KeyboardState m_CurrentState, m_PreviousState;
-    private Texture2D floor, path, sideImage, turret, projectileTexture, circleTexture;
+    private Texture2D floor, path, sideImage, turret, projectileTexture, circleTexture, player1;
     private GraphicsDevice _graphicsDevice;
     private GraphicsDeviceManager _graphics;
     private List<Point> boxes;
     private List<Tower> towers;
     private EntityManager Entities;
     private SpawnManager Spawner;
-    //private Tower Turret;
 
     private bool isDraggingTower = false;
-    private Point towerPosition; // A posiÁ„o atual da torre enquanto est· sendo arrastada
-    private Rectangle towerSourceRectangle; // A ·rea onde a torre est· desenhada no painel lateral
+    private Point towerPosition; // A posi√ß√£o atual da torre enquanto est√° sendo arrastada
+    private Rectangle towerSourceRectangle; // A √°rea onde a torre est√° desenhada no painel lateral
+
+    //player
+    private Player player;
+    private Vector2 playerPosition;
     #endregion
 
     #region Constructor
@@ -59,6 +62,7 @@ public class GameScene : IScene
         sideImage = AssetManager.Instance().GetTile("SideImage");
         turret = AssetManager.Instance().GetSprite("Turret");
         projectileTexture = AssetManager.Instance().GetSprite("TurretBullet");
+        player1 = AssetManager.Instance().GetSprite("Player1");
         towerSourceRectangle = new Rectangle(0, 0, turret.Width, turret.Height);
 
         LoadLevel("level1.txt");
@@ -118,6 +122,9 @@ public class GameScene : IScene
             tower.Update(gameTime, Entities);
         }
 
+        // Player
+        player.Update(gameTime);
+
         // Update the SpawnManager
         Spawner.Update(gameTime);
 
@@ -141,16 +148,10 @@ public class GameScene : IScene
 
                 switch (level[x, y])
                 {
-                    case '#':
+                    case '#' or 'P':
                         spriteBatch.Draw(floor, position, Color.White);
                     break;
-                    case 'C':
-                        spriteBatch.Draw(path, position, Color.White);
-                    break;
-                    case 'S':
-                        spriteBatch.Draw(path, position, Color.White);
-                    break;
-                    case 'F':
+                    case 'C' or 'S' or 'F' :
                         spriteBatch.Draw(path, position, Color.White);
                     break;
                 }
@@ -204,7 +205,7 @@ public class GameScene : IScene
         Vector2 averageZombiePosition = Vector2.Zero;
         int activeZombiesCount = 0;
 
-        // Calcula a posiÁ„o mÈdia dos zumbis ativos
+        // Calcula a posi√ß√£o m√©dia dos zumbis ativos
         foreach (var entity in Entities.Entities)
         {
             if (entity is Zombie zombie && zombie.IsActive)
@@ -219,12 +220,14 @@ public class GameScene : IScene
             averageZombiePosition /= activeZombiesCount;
         }
 
-        // Desenha as torres e seus projÈteis
+        // Desenha as torres e seus proj√©teis
         foreach (var tower in towers)
         {
             tower.Draw(spriteBatch, averageZombiePosition);
         }
 
+        //Player 
+        player.Draw(spriteBatch);
 
         // Render the entities
         Entities.Render(spriteBatch);
@@ -305,6 +308,13 @@ public class GameScene : IScene
             for (int y = 0; y < nrLinhas; y++)
             {
                 level[x, y] = linhas[y][x];
+
+                //player
+                if (linhas[y][x] == 'P')
+                {
+                    playerPosition = new Vector2(x, y);
+                    player = new Player(player1,playerPosition);
+                }
             }
         }
     }

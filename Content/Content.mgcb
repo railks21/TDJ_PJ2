@@ -184,6 +184,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/denizen_zombie.png
 
+#begin Sprites/Mage_Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Mage_Sheet.png
+
 #begin Sprites/pistol_bullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
