@@ -20,7 +20,7 @@ namespace TDJ_PJ2
         public TileManager Tiles;
         public SceneManager Scenes;
 
-        private Camera camera;
+        private Camera _camera;
         #endregion
 
         public Game1()
@@ -39,8 +39,6 @@ namespace TDJ_PJ2
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
 
-            camera = new Camera(GraphicsDevice, Vector2.Zero);
-
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -53,6 +51,10 @@ namespace TDJ_PJ2
 
             Tiles = new TileManager();
             Scenes = new SceneManager(GraphicsDevice, _graphics, _contentManager);
+
+            // Inicialize a câmera com um zoom inicial
+            float initialZoom = 1.5f; // Defina o valor de zoom desejado aqui
+            _camera = new Camera(GraphicsDevice, Vector2.Zero, initialZoom);
         }
 
         protected override void Update(GameTime gameTime)
@@ -63,7 +65,7 @@ namespace TDJ_PJ2
             // Update camera to follow player
             if (Scenes.CurrentScene is GameScene gameScene)
             {
-                camera.Follow(gameScene.GetPlayerPosition());
+                _camera.Follow(gameScene.GetPlayerPosition(), gameScene.LevelWidth, gameScene.LevelHeight, gameScene.TileSize);
             }
 
             HandleZoom();
@@ -77,21 +79,21 @@ namespace TDJ_PJ2
         {
             if (Keyboard.GetState().IsKeyDown(Keys.OemPlus) || Keyboard.GetState().IsKeyDown(Keys.Add))
             {
-                camera.Zoom += 0.01f; // Zoom in
+                _camera.Zoom += 0.01f; // Zoom in
             }
             if (Keyboard.GetState().IsKeyDown(Keys.OemMinus) || Keyboard.GetState().IsKeyDown(Keys.Subtract))
             {
-                camera.Zoom -= 0.01f; // Zoom out
+                _camera.Zoom -= 0.01f; // Zoom out
             }
 
-            camera.Zoom = MathHelper.Clamp(camera.Zoom, 0.5f, 3f); // Clamp zoom between 0.5 and 3
+            _camera.Zoom = MathHelper.Clamp(_camera.Zoom, 0.5f, 3f); // Clamp zoom between 0.5 and 3
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(transformMatrix: camera.TransformMatrix);
+            _spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
 
             Tiles.Render(_spriteBatch);
             Scenes.Render(_spriteBatch);

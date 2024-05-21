@@ -39,6 +39,9 @@ namespace TDJ_PJ2
         //player
         private Player player;
         private Vector2 playerPosition;
+        public int LevelWidth => (level.GetLength(0) + 6);
+        public int LevelHeight => level.GetLength(1);
+        public int TileSize => tileSize;
         #endregion
 
         #region Constructor
