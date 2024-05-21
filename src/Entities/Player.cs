@@ -9,11 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TDJ_PJ2.src.Entities
 {
-    enum Direction
-    {
-        Up, Down, Left, Right // 0, 1, 2, 3
-    }
-
     public class Player
     {
         // Player position

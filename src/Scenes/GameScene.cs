@@ -35,14 +35,6 @@ namespace TDJ_PJ2
         private Player player;
         private Vector2 playerPosition;
 
-
-        // depois apagar caso o player nao recebe um vector2
-        // Placeholder position of the player
-        // private Vector2 playerStartPosition = new Vector2(64f, 64f);
-
-
-        //private Texture2D player_sprite;
-        // utilizo o 'player4' para a texture2D
         #endregion
 
         #region Constructor
