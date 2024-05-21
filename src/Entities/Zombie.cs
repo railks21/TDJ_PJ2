@@ -12,8 +12,10 @@ public class Zombie : DynamicEntity
     #endregion
 
     #region Fields
+    public int CurrentRow;
+
     public ZombieType Type { get; private set; }
-    public int CurrentRow { get; set; }
+    //public int CurrentRow { get; set; }
 
     private List<Vector2> m_FinalPoint = new List<Vector2>();
     private List<Vector2> m_PathPoints;
@@ -97,15 +99,12 @@ public class Zombie : DynamicEntity
         int frameHeight = 65;
         int framesPerRow = 3;
 
-        // Choose the desired row (0 for the first row, 1 for the second row, etc.).
-        int currentRow = CurrentRow; // For example, choosing the third row.
-
         // Initialize the sourceRectangles array based on the number of frames.
         sourceRectangles = new Rectangle[4];
         for (int i = 0; i < sourceRectangles.Length; i++)
         {
             int x = (i % framesPerRow) * frameWidth;
-            int y = currentRow * frameHeight; // Adjust Y to the current row
+            int y = CurrentRow * frameHeight; // Adjust Y to the current row
             sourceRectangles[i] = new Rectangle(x, y, frameWidth, frameHeight);
         }
 

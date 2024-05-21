@@ -11,7 +11,6 @@ public class SceneManager
     #endregion
 
     #region Fields
-    //public ScoreManager Score;
     public SceneType Type {get; set;}
     public object Score { get; private set; }
 
@@ -43,9 +42,10 @@ public class SceneManager
         GameScene.SceneChangeEvent += OnSceneChange;
         HelpScene.SceneChangeEvent += OnSceneChange;
         CreditsScene.SceneChangeEvent += OnSceneChange;
-        _graphics = graphics;
-        //OverScene.SceneChangeEvent += OnSceneChange;
-        //EntityManager.SceneChangeEvent += OnSceneChange;
+        OverScene.SceneChangeEvent += OnSceneChange;
+        WinScene.SceneChangeEvent += OnSceneChange;
+        EntityManager.SceneChangeEvent += OnSceneChange;
+        SpawnManager.SceneChangeEvent += OnSceneChange;
     }
     #endregion
 
@@ -72,9 +72,12 @@ public class SceneManager
             case SceneType.Credits:
                 CurrentScene = new CreditsScene(_graphicsDevice);
             break;
-                //case SceneType.Over:
-                //    CurrentScene = new OverScene(Score);
-                //    break;
+            case SceneType.Over:
+                CurrentScene = new OverScene(_graphicsDevice);
+            break;
+            case SceneType.Win:
+                CurrentScene = new WinScene(_graphicsDevice);
+            break;
         }
 
         // Making sure that the scene loads once not every frame
@@ -90,12 +93,6 @@ public class SceneManager
     public void OnSceneChange(SceneType sceneType)
     {
         Type = sceneType;
-
-        // Resetting the score when the game is replayed
-        if (Type == SceneType.Game)
-        {
-            Score = 0;
-        }
 
         m_IsSceneChanged = true;
     }

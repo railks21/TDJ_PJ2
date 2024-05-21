@@ -8,5 +8,6 @@ public enum SceneType
     Score,
     Help,
     Credits,
-    Over
+    Over,
+    Win
 }
