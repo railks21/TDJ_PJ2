@@ -25,13 +25,14 @@ public class GameScene : IScene
     public char[,] level;
 
     private KeyboardState m_CurrentState, m_PreviousState;
-    private Texture2D floor, path, sideImage, turret, projectileTexture;
+    private Texture2D floor, path, sideImage, turret, projectileTexture, circleTexture;
     private GraphicsDevice _graphicsDevice;
     private GraphicsDeviceManager _graphics;
     private List<Point> boxes;
     private List<Tower> towers;
     private EntityManager Entities;
     private SpawnManager Spawner;
+    //private Tower Turret;
 
     private bool isDraggingTower = false;
     private Point towerPosition; // A posição atual da torre enquanto está sendo arrastada
@@ -56,13 +57,16 @@ public class GameScene : IScene
         floor = AssetManager.Instance().GetTile("Grass");
         path = AssetManager.Instance().GetTile("WitheredGrass");
         sideImage = AssetManager.Instance().GetTile("SideImage");
-        turret = AssetManager.Instance().GetSprite("Player");
+        turret = AssetManager.Instance().GetSprite("Turret");
         projectileTexture = AssetManager.Instance().GetSprite("TurretBullet");
         towerSourceRectangle = new Rectangle(0, 0, turret.Width, turret.Height);
 
         LoadLevel("level1.txt");
         Entities = new EntityManager();
         Spawner = new SpawnManager(level, Entities);
+        Tower tower = new Tower(turret, new Vector2(100, 100), projectileTexture);
+
+        circleTexture = CreateCircleTexture(graphicsDevice, (int)tower.Range);
     }
     #endregion
 
@@ -166,12 +170,15 @@ public class GameScene : IScene
 
         // Draw text Money
         Vector2 textPosition = new Vector2(levelWidthInPixels + 10, 10);
-        spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: " + "9999", textPosition, Color.White);
+        spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: " + Tower.Money, textPosition, Color.White);
 
         // Draw text Turrets
         if (!isDraggingTower)
         {
             Vector2 turretPosition = new Vector2(levelWidthInPixels + 135, 250);
+            Vector2 costPosition = new Vector2(levelWidthInPixels + 100, 320);
+
+            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Cost: " + "350", costPosition, Color.White);
             spriteBatch.Draw(turret, turretPosition, Color.White);
         }
 
@@ -187,13 +194,37 @@ public class GameScene : IScene
 
             // Draw Tower 
             spriteBatch.Draw(turret, towerDrawPosition, Color.White);
+
+            // Draw Range Circle
+            Vector2 circleDrawPosition = new Vector2(towerDrawPosition.X + (turret.Width / 2) - (circleTexture.Width / 2),
+                                                     towerDrawPosition.Y + (turret.Height / 2) - (circleTexture.Height / 2));
+            spriteBatch.Draw(circleTexture, circleDrawPosition, Color.White * 0.5f); // Adjust transparency as needed
         }
 
-        // Draw towers and their projectiles
+        Vector2 averageZombiePosition = Vector2.Zero;
+        int activeZombiesCount = 0;
+
+        // Calcula a posição média dos zumbis ativos
+        foreach (var entity in Entities.Entities)
+        {
+            if (entity is Zombie zombie && zombie.IsActive)
+            {
+                averageZombiePosition += zombie.Position;
+                activeZombiesCount++;
+            }
+        }
+
+        if (activeZombiesCount > 0)
+        {
+            averageZombiePosition /= activeZombiesCount;
+        }
+
+        // Desenha as torres e seus projéteis
         foreach (var tower in towers)
         {
-            tower.Draw(spriteBatch);
+            tower.Draw(spriteBatch, averageZombiePosition);
         }
+
 
         // Render the entities
         Entities.Render(spriteBatch);
@@ -202,6 +233,34 @@ public class GameScene : IScene
         if (m_IsPaused) PauseMenu(spriteBatch);
     }
 
+    private Texture2D CreateCircleTexture(GraphicsDevice graphicsDevice, int radius)
+    {
+        int diameter = radius * 2;
+        Texture2D texture = new Texture2D(graphicsDevice, diameter, diameter);
+        Color[] colorData = new Color[diameter * diameter];
+
+        float radiussq = radius * radius;
+
+        for (int x = 0; x < diameter; x++)
+        {
+            for (int y = 0; y < diameter; y++)
+            {
+                int index = x * diameter + y;
+                Vector2 pos = new Vector2(x - radius, y - radius);
+                if (pos.LengthSquared() <= radiussq)
+                {
+                    colorData[index] = Color.White;
+                }
+                else
+                {
+                    colorData[index] = Color.Transparent;
+                }
+            }
+        }
+
+        texture.SetData(colorData);
+        return texture;
+    }
 
     // Verify position is valid
     private bool IsValidPosition(Point position)
@@ -221,12 +280,13 @@ public class GameScene : IScene
     // Place Tower on map
     private void PlaceTowerOnMap(Point position)
     {
-        if (IsValidPosition(position))
+        if (IsValidPosition(position) && (Tower.Money >= 350))
         {
             int tileX = position.X / tileSize;
             int tileY = position.Y / tileSize;
 
             Tower newTower = new Tower(turret, new Vector2(tileX * tileSize, tileY * tileSize), projectileTexture);
+            Tower.Money -= 350;
             towers.Add(newTower);
         }
     }
