@@ -1,11 +1,7 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace TDJ_PJ2;
 
@@ -13,7 +9,7 @@ public class Player
 {
     public Vector2 position { get; set; }
     private Texture2D texture;
-    private float speed = 4f;
+    private float speed = 400f;
     public int CurrentRow { get; set; }
 
     float timer;
@@ -226,7 +222,7 @@ public class Player
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 pos = position * 64;
+        Vector2 pos = position ;
         Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
         spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
 
@@ -238,10 +234,10 @@ public class Player
 
     private void Shoot(Vector2 targetPosition)
     {
-        Vector2 direction = targetPosition / 64 - position;
+        Vector2 direction = targetPosition - position;
         direction.Normalize();
 
-        Vector2 projectileStartPosition = position * 64;
+        Vector2 projectileStartPosition = position;
         Projectile newProjectile = new Projectile(projectileTexture, projectileStartPosition, direction, 300f);
         ProjectilesP.Add(newProjectile);
     }

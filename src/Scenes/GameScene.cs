@@ -314,7 +314,7 @@ public class GameScene : IScene
                 //player
                 if (linhas[y][x] == 'P')
                 {
-                    playerPosition = new Vector2(x, y); // Adjusted position for player
+                    playerPosition = new Vector2(x * tileSize, y * tileSize); // Adjusted position for player
                     player = new Player(player1, playerPosition);
                 }
             }
