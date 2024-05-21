@@ -94,7 +94,7 @@ public class Zombie : DynamicEntity
 
         // Define the dimensions of each frame in the spritesheet.
         int frameWidth = 48;
-        int frameHeight = 64;
+        int frameHeight = 65;
         int framesPerRow = 3;
 
         // Choose the desired row (0 for the first row, 1 for the second row, etc.).
@@ -170,12 +170,12 @@ public class Zombie : DynamicEntity
         {
             if (entity is DynamicEntity dynamicEntity)
             {
-                // Ajuste a lógica de colisão para levar em conta o novo tamanho da hitbox
+                // Ajuste a lï¿½gica de colisï¿½o para levar em conta o novo tamanho da hitbox
                 Rectangle expandedHitbox = new Rectangle(Hitbox.X - 32, Hitbox.Y - 32, Hitbox.Width + 64, Hitbox.Height + 64);
 
                 if (expandedHitbox.Intersects(dynamicEntity.Hitbox))
                 {
-                    // Lógica para lidar com a colisão entre o zombie e a outra entidade
+                    // Lï¿½gica para lidar com a colisï¿½o entre o zombie e a outra entidade
                 }
             }
         }

@@ -37,6 +37,7 @@ namespace TDJ_PJ2
         public int MaxRounds;
         public int Speed;
         public bool IsRoundActive;
+        public bool IsSpawnActive;
         #endregion
 
         #region Constructor
@@ -52,6 +53,7 @@ namespace TDJ_PJ2
             Rounds = INITIAL_ROUNDS;
             MaxRounds = MAX_ROUNDS;
             IsRoundActive = false;
+            IsSpawnActive = false;
             Speed = SPEED;
 
             // Find spawn points from the map
@@ -77,6 +79,7 @@ namespace TDJ_PJ2
             {
                 Rounds++;
                 IsRoundActive = false;
+                IsSpawnActive = true;
             }
 
             // This timer will define the difficulty of the game.
@@ -84,6 +87,12 @@ namespace TDJ_PJ2
             if (m_Timer >= m_SpawnInterval && IsRoundActive == false)
             {
                 m_Timer = 0;
+
+                if (IsSpawnActive == false && Rounds % 10 == 0)
+                {
+                    m_SpawnInterval -= 100;
+                    IsSpawnActive = true;
+                }
 
                 // Increase the spawn counter
                 m_SpawnCounter++;
@@ -93,11 +102,6 @@ namespace TDJ_PJ2
                     IsRoundActive = true;
                     m_NumSpawnPerInterval += INITIAL_ZOMBIES_PER_ROUND;
                     m_SpawnCounter = 0;
-                }
-
-                if (Rounds % 10 == 0) 
-                {
-                    m_SpawnInterval -= 100;
                 }
 
                 if (Rounds % 25 == 0)
@@ -191,6 +195,7 @@ namespace TDJ_PJ2
                     dx = 0;
                     dy = -1;
                     currentRow = 0; // Up
+                    
                 }
                 else
                 {
