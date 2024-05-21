@@ -189,6 +189,7 @@ namespace TDJ_PJ2.src.Entities
 
             // player shoot
             var enemies = entityManager.Entities;
+            var target = GetClosestEnemy(enemies);
             readyShoot -= 1;
 
             if (keyboardState.IsKeyDown(Keys.Escape))
@@ -276,6 +277,27 @@ namespace TDJ_PJ2.src.Entities
                     }
                 }
             }
+        }
+
+        private IEntity GetClosestEnemy(List<IEntity> enemies)
+        {
+            IEntity closestEnemy = null;
+            float closestDistance = Range;
+
+            foreach (var enemy in enemies)
+            {
+                if (enemy is Zombie zombie)
+                {
+                    float distance = Vector2.Distance(Position, zombie.Position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestEnemy = zombie;
+                    }
+                }
+            }
+
+            return closestEnemy;
         }
     }
 }
