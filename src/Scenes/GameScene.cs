@@ -116,8 +116,8 @@ namespace TDJ_PJ2
             }
 
             // Draw text Rounds, Health, Money
-            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Rounds: ", new Vector2(10.0f, 10.0f), Color.White);
-            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Health: ", new Vector2(10.0f, 60.0f), Color.White);
+            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Rounds: " + Spawner.Rounds + "/" + Spawner.MaxRounds, new Vector2(10.0f, 10.0f), Color.White);
+            spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Health: " + Entities.Health, new Vector2(10.0f, 60.0f), Color.White);
             spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: ", new Vector2(10.0f, 110.0f), Color.White);
 
             // Render the entities
@@ -162,10 +162,10 @@ namespace TDJ_PJ2
             SpriteFont mediumFont = AssetManager.Instance().GetFont("Medium");
 
             // Pause title render
-            spriteBatch.DrawString(largeFont, m_PauseText, Game1.CenterText(largeFont, m_PauseText) - new Vector2(0.0f, 50.0f), Color.CadetBlue);
+            spriteBatch.DrawString(largeFont, m_PauseText, Game1.CenterText(largeFont, m_PauseText) - new Vector2(0.0f, 50.0f), Color.Black);
 
             // To menu text render
-            spriteBatch.DrawString(mediumFont, m_ToMenuText, Game1.CenterText(mediumFont, m_ToMenuText), Color.CadetBlue);
+            spriteBatch.DrawString(mediumFont, m_ToMenuText, Game1.CenterText(mediumFont, m_ToMenuText), Color.Black);
         }
         #endregion
     }

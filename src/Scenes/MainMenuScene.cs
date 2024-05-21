@@ -113,25 +113,25 @@ public class MainMenuScene : IScene
         spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
 
         // Title render
-        spriteBatch.DrawString(largeFont, m_Title, Game1.CenterText(largeFont, m_Title) + new Vector2(0, 10.0f), Color.CadetBlue);
+        spriteBatch.DrawString(largeFont, m_Title, Game1.CenterText(largeFont, m_Title) + new Vector2(0, 10.0f), Color.Black);
 
         // Play text render
-        spriteBatch.DrawString(mediumFont, m_PlayText, playTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_PlayText, playTextPosition, Color.Black);
 
         // Settings text render
-        spriteBatch.DrawString(mediumFont, m_SettingsText, settingsTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_SettingsText, settingsTextPosition, Color.Black);
 
         // Score text render
-        spriteBatch.DrawString(mediumFont, m_ScoresText, scoresTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_ScoresText, scoresTextPosition, Color.Black);
 
         // Help text render
-        spriteBatch.DrawString(mediumFont, m_HelpText, helpTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_HelpText, helpTextPosition, Color.Black);
 
         // Credits text render
-        spriteBatch.DrawString(mediumFont, m_CreditsText, creditTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_CreditsText, creditTextPosition, Color.Black);
 
         // Exit text render
-        spriteBatch.DrawString(mediumFont, m_ExitText, exitTextPosition, Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, m_ExitText, exitTextPosition, Color.Black);
 
         // Play HitBox render
         playHitbox = new Rectangle(

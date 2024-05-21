@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TDJ_PJ2;
 
@@ -14,44 +15,46 @@ public class EntityManager
 
     #region Consts
     private const int PLAYER_HEALTH = 100;
-    private const int BARRICADE_HEALTH = 400;
+    private const int HEALTH = 100;
     #endregion
 
     #region Fields
     public List<IEntity> Entities { get; private set; }
-    public int BarricadeHealth;
+    public int Health;
     #endregion
 
     #region Constructor
     public EntityManager()
     {
         Entities = new List<IEntity>();
-        //BarricadeHealth = BARRICADE_HEALTH;
+        Health = HEALTH;
 
         /* Adding entities */
         // Player
         //Entities.Add(new Player(new Vector2(128.0f, Game1.ScreenHeight - 100.0f), AssetManager.Instance().GetSprite("Player"), 100));
 
         // Subscribing to events(doing a collision event here since the health for the barricade is here. Very bad design)
-        //Zombie.BarricadeCollisionEvent += OnBarricadeCollision;
+        Zombie.FinalDestionationEvent += FinalDestination;
     }
     #endregion
 
     #region Methods
     public void Update(GameTime gameTime)
     {
+        // Criando uma cópia da lista Entities
+        List<IEntity> entitiesCopy = Entities.ToList();
+
         // Deletando a entidade da lista se estiver inativa
-        for (int i = 0; i < Entities.Count; i++)
+        for (int i = 0; i < entitiesCopy.Count; i++)
         {
-            if (!Entities[i].IsActive)
+            if (!entitiesCopy[i].IsActive)
             {
-                Entities.RemoveAt(i);
-                i--;
+                Entities.Remove(entitiesCopy[i]);
             }
         }
 
         // Atualizando as entidades
-        foreach (var entity in Entities)
+        foreach (var entity in entitiesCopy)
         {
             // Atualização para as colisões
             entity.CollisionUpdate(Entities);
@@ -61,7 +64,7 @@ public class EntityManager
         }
 
         // Terminando o jogo uma vez que a barricada seja destruída
-        if (BarricadeHealth <= 0)
+        if (Health <= 0)
             SceneChangeEvent?.Invoke(SceneType.Over);
     }
 
@@ -73,11 +76,19 @@ public class EntityManager
         }
     }
 
-    //public void OnBarricadeCollision(Zombie zombie)
-    //{
-    //    BarricadeHealth -= zombie.Damage;
+    public void FinalDestination(Zombie zombie)
+    {
+        Health -= 1;
 
-    //    zombie.Velocity = new Vector2(0.0f, 0.0f);
-    //}
+        // Remove  zumbi from list
+        for (int i = Entities.Count - 1; i >= 0; i--)
+        {
+            if (Entities[i] == zombie)
+            {   
+                Entities.RemoveAt(i); 
+                break;
+            }
+        }
+    }
     #endregion
 }
