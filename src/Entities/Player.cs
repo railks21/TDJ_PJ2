@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -6,12 +11,11 @@ namespace TDJ_PJ2;
 
 public class Player
 {
-    private Vector2 position { get; set; }
+    public Vector2 position { get; set; }
     private Texture2D texture;
-    private float speed;
+    private float speed = 4f;
     public int CurrentRow { get; set; }
 
-    // Animation fields
     float timer;
     int threshold;
     Rectangle[] sourceRectangles;
@@ -26,6 +30,7 @@ public class Player
     private int readyShoot;
     private int fireCooldown;
 
+    // Flag to track if the player was moving in the previous frame
     private bool wasMoving = false;
 
     private Texture2D projectileTexture;
@@ -57,7 +62,6 @@ public class Player
             int y = currentRow * frameHeight;
             sourceRectangles[i] = new Rectangle(x, y, frameWidth, frameHeight);
         }
-        
         previousAnimationIndex = 2;
         currentAnimationIndex = 1;
     }
@@ -72,7 +76,7 @@ public class Player
         Vector2 newPosition = position;
         bool moved = false;
 
-        bool moveLeft = keyboardState.IsKeyDown(Keys.A);
+        bool moveLeft = keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A);
         bool moveRight = keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D);
         bool moveUp = keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W);
         bool moveDown = keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S);
@@ -179,7 +183,7 @@ public class Player
             }
             UpdateAnimation(gameTime);
         }
-#endregion
+        #endregion
 
         readyShoot -= 1;
         if (keyboardState.IsKeyDown(Keys.Space) && readyShoot <= 0)
@@ -253,7 +257,6 @@ public class Player
                     enemy.TakeDamage(10); // example damage, adjust as needed
                     projectile.IsActive = false;
 
-<<<<<<< HEAD
                     if (enemy.Health <= 0)
                     {
                         Tower.Money += 1;
@@ -261,12 +264,6 @@ public class Player
 
                 }
             }
-=======
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            Vector2 pos = position; // Player position is already in world coordinates
-            spriteBatch.Draw(texture, pos, sourceRectangles[currentAnimationIndex], Color.White);
->>>>>>> master
         }
     }
 }
