@@ -30,9 +30,19 @@ namespace TDJ_PJ2.src.Entities
         private int frameWidth = 32;
         private int frameHeight = 48;
         private int framesPerRow = 6;
+        private int readyShoot = 0; // ready shoot at 0, if higher still in cooldown
+        private int fireCooldown = 50; // cooldown to shoot
 
         // Flag to track if the player was moving in the previous frame
         private bool wasMoving = false;
+
+        // projectile do player
+        private Texture2D projectileTexture;
+        public List<Projectile> ProjectilesP { get; private set; }
+
+        //tower
+        private Tower tower;
+
 
         // Constructor
         public Player(Texture2D texture, Vector2 Position)
@@ -58,7 +68,7 @@ namespace TDJ_PJ2.src.Entities
             currentAnimationIndex = 1;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, EntityManager entityManager)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState keyboardState = Keyboard.GetState();
@@ -70,6 +80,8 @@ namespace TDJ_PJ2.src.Entities
             bool moveUp = keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W);
             bool moveDown = keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S);
 
+            // moviment of player
+            #region movPlayer
             if (moveLeft && moveUp)
             {
                 newPosition.X -= speed * deltaTime;
@@ -172,6 +184,34 @@ namespace TDJ_PJ2.src.Entities
                 }
                 UpdateAnimation(gameTime);
             }
+            #endregion
+
+            // player shoot
+            var enemies = entityManager.Entities;
+            readyShoot -= 1;
+
+            if (keyboardState.IsKeyDown(Keys.Escape))
+            {
+                if (readyShoot <= 0)
+                {
+                    Shoot();
+                    readyShoot = fireCooldown;
+                }
+            }
+
+            // Update projectiles
+            for (int i = ProjectilesP.Count - 1; i >= 0; i--)
+            {
+                ProjectilesP[i].Update(gameTime);
+                if (!ProjectilesP[i].IsActive)
+                {
+                    ProjectilesP.RemoveAt(i);
+                }
+            }
+
+            CheckProjectileCollisions(enemies);
+
+            ProjectilesP.RemoveAll(p => !p.IsActive);
         }
 
         private void UpdateAnimation(GameTime gameTime)
@@ -197,6 +237,38 @@ namespace TDJ_PJ2.src.Entities
             Vector2 pos = position * 64; // Assuming tile size is 64
             Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
             spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
+        }
+
+        private void Shoot()
+        {
+            Vector2 direction = position;
+            direction.Normalize();
+            // codigo meu leonel
+            //Vector2 direction = new Vector2(1, 1);
+
+            Projectile newProjectile = new Projectile(projectileTexture, position, direction, 300f);
+            ProjectilesP.Add(newProjectile);
+        }
+
+        private void CheckProjectileCollisions(List<IEntity> enemies)
+        {
+            foreach (var projectile in ProjectilesP)
+            {
+                foreach (var enemy in enemies)
+                {
+                    if (projectile.Collider.Intersects(enemy.Collider))
+                    {
+                        enemy.TakeDamage(100); // example damage, adjust as needed
+                        projectile.IsActive = false;
+
+                        if (enemy.Health <= 0)
+                        {
+                            tower.Money += tower.moneyPerEnemy;
+                        }
+
+                    }
+                }
+            }
         }
     }
 }

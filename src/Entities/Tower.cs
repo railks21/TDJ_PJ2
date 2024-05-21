@@ -20,8 +20,8 @@ public class Tower
     private float fireCooldown;
     private float readyShoot;
 
-    public static int Money;
-    private int moneyPerEnemy;
+    public int Money;
+    public int moneyPerEnemy;
 
     public List<Projectile> Projectiles { get; private set; }
     private Texture2D projectileTexture;
