@@ -25,6 +25,7 @@ public class GameScene : IScene
 
     private KeyboardState m_CurrentState, m_PreviousState;
     private Texture2D floor, path, sideImage, turret, projectileTexture, circleTexture, player1;
+    private Rectangle pauseHitbox;
     private GraphicsDevice _graphicsDevice;
     private GraphicsDeviceManager _graphics;
     private List<Point> boxes;
@@ -90,6 +91,16 @@ public class GameScene : IScene
         // From Game to Menu
         else if (m_CurrentState.IsKeyDown(Keys.M) && m_PreviousState.IsKeyUp(Keys.M))
             SceneChangeEvent?.Invoke(SceneType.Menu);
+
+
+        if (mouseState.LeftButton == ButtonState.Pressed)
+        {
+            // Verifica se o clique do mouse ocorreu dentro da área do texto "Play"
+            if (pauseHitbox.Contains(mouseState.Position))
+            {
+                SceneChangeEvent?.Invoke(SceneType.Menu);
+            }
+        }
 
         // Updates the below managers when the game is not paused
         if (m_IsPaused) return;
@@ -329,8 +340,19 @@ public class GameScene : IScene
         // Pause title render
         spriteBatch.DrawString(largeFont, m_PauseText, Game1.CenterText(largeFont, m_PauseText) - new Vector2(0.0f, 50.0f), Color.Black);
 
+        Vector2 pauseTextPosition = Game1.CenterText(mediumFont, m_ToMenuText);
+        pauseTextPosition.Y += 0.0f;
+
         // To menu text render
         spriteBatch.DrawString(mediumFont, m_ToMenuText, Game1.CenterText(mediumFont, m_ToMenuText), Color.Black);
+
+        // Pause HitBox render
+        pauseHitbox = new Rectangle(
+            (int)Game1.CenterText(mediumFont, m_ToMenuText).X,
+            (int)pauseTextPosition.Y,
+            (int)mediumFont.MeasureString(m_ToMenuText).X,
+            (int)mediumFont.MeasureString(m_ToMenuText).Y);
+
     }
 
     public Vector2 GetPlayerPosition()
