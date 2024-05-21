@@ -79,11 +79,11 @@ namespace TDJ_PJ2
         {
             if (Keyboard.GetState().IsKeyDown(Keys.OemPlus) || Keyboard.GetState().IsKeyDown(Keys.Add))
             {
-                _camera.Zoom += 0.01f; // Zoom in
+                _camera.Zoom = 1.9f; // Zoom in
             }
             if (Keyboard.GetState().IsKeyDown(Keys.OemMinus) || Keyboard.GetState().IsKeyDown(Keys.Subtract))
             {
-                _camera.Zoom -= 0.01f; // Zoom out
+                _camera.Zoom = 1.0f; // Zoom out
             }
 
             _camera.Zoom = MathHelper.Clamp(_camera.Zoom, 0.5f, 3f); // Clamp zoom between 0.5 and 3
