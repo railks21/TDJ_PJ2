@@ -20,7 +20,7 @@ public class Tower
     private float fireCooldown;
     private float readyShoot;
 
-    public int Money;
+    public static int Money;
     public int moneyPerEnemy;
 
     public List<Projectile> Projectiles { get; private set; }

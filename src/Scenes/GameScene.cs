@@ -173,7 +173,7 @@ public class GameScene : IScene
 
         // Draw text Money
         Vector2 textPosition = new Vector2(levelWidthInPixels + 10, 10);
-        spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: " + tower.Money, textPosition, Color.White);
+        spriteBatch.DrawString(AssetManager.Instance().GetFont("Medium"), "Money: " + Tower.Money, textPosition, Color.White);
 
         // Draw text Turrets
         if (!isDraggingTower)
@@ -285,13 +285,13 @@ public class GameScene : IScene
     // Place Tower on map
     private void PlaceTowerOnMap(Point position)
     {
-        if (IsValidPosition(position) && (tower.Money >= 350))
+        if (IsValidPosition(position) && (Tower.Money >= 350))
         {
             int tileX = position.X / tileSize;
             int tileY = position.Y / tileSize;
 
             Tower newTower = new Tower(turret, new Vector2(tileX * tileSize, tileY * tileSize), projectileTexture);
-            tower.Money -= 350;
+            Tower.Money -= 350;
             towers.Add(newTower);
         }
     }

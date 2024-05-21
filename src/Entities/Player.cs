@@ -49,6 +49,7 @@ namespace TDJ_PJ2.src.Entities
         {
             this.texture = texture;
             position = Position;
+            ProjectilesP = new List<Projectile>();
             InitializeAnimation();
         }
 
@@ -237,6 +238,12 @@ namespace TDJ_PJ2.src.Entities
             Vector2 pos = position * 64; // Assuming tile size is 64
             Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
             spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
+            
+            // Desenha os projéteis
+            foreach (var projectile in ProjectilesP)
+            {
+                projectile.Draw(spriteBatch);
+            }
         }
 
         private void Shoot()
@@ -261,10 +268,10 @@ namespace TDJ_PJ2.src.Entities
                         enemy.TakeDamage(100); // example damage, adjust as needed
                         projectile.IsActive = false;
 
-                        if (enemy.Health <= 0)
-                        {
-                            tower.Money += tower.moneyPerEnemy;
-                        }
+                        //if (enemy.Health <= 0)
+                        //{
+                        //    tower.Money += tower.moneyPerEnemy;
+                        //}
 
                     }
                 }
