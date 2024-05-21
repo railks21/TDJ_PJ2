@@ -53,7 +53,7 @@ namespace TDJ_PJ2
             Scenes = new SceneManager(GraphicsDevice, _graphics, _contentManager);
 
             // Inicialize a câmera com um zoom inicial
-            float initialZoom = 1.5f; // Defina o valor de zoom desejado aqui
+            float initialZoom = 1.0f; // Defina o valor de zoom desejado aqui
             _camera = new Camera(GraphicsDevice, Vector2.Zero, initialZoom);
         }
 
