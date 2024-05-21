@@ -53,6 +53,7 @@ public sealed class AssetManager
         m_SpriteDict.Add("Shell", content.Load<Texture2D>("Sprites/shootgun_shell"));
 
         m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Mage_Sheet"));
+        m_SpriteDict.Add("PlayerBullet", content.Load<Texture2D>("Sprites/PlayerBullet"));
 
         m_SpriteDict.Add("ZombieG", content.Load<Texture2D>("Sprites/zombieG"));
         m_SpriteDict.Add("Turret", content.Load<Texture2D>("Sprites/turret"));

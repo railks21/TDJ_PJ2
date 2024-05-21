@@ -7,297 +7,262 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace TDJ_PJ2.src.Entities
+namespace TDJ_PJ2;
+
+public class Player
 {
-    public class Player
+    private Vector2 position { get; set; }
+    private Texture2D texture;
+    private float speed = 4f;
+    public int CurrentRow { get; set; }
+
+    float timer;
+    int threshold;
+    Rectangle[] sourceRectangles;
+    byte previousAnimationIndex;
+    byte currentAnimationIndex;
+    private int frameWidth = 32;
+    private int frameHeight = 48;
+    private int framesPerRow = 6;
+
+    public int Range { get; set; }
+    public int FireRate { get; set; }
+    private int readyShoot;
+    private int fireCooldown;
+
+    private bool wasMoving = false;
+
+    private Texture2D projectileTexture;
+    public List<Projectile> ProjectilesP { get; private set; }
+
+
+    public Player(Texture2D texture, Vector2 Position)
     {
-        // Player position
-        private Vector2 position { get; set; }
+        this.texture = texture;
+        position = Position;
+        Range = 2000;
+        FireRate = 3;
+        fireCooldown = 10;
+        readyShoot = 0;
+        projectileTexture = AssetManager.Instance().GetSprite("PlayerBullet");
+        ProjectilesP = new List<Projectile>();
+        InitializeAnimation();
+    }
 
-        // Player texture
-        private Texture2D texture;
-
-        private float speed = 4f;
-
-        public int CurrentRow { get; set; }
-
-        // Animation fields
-        float timer;
-        int threshold;
-        Rectangle[] sourceRectangles;
-        byte previousAnimationIndex;
-        byte currentAnimationIndex;
-        private int frameWidth = 32;
-        private int frameHeight = 48;
-        private int framesPerRow = 6;
-        private int readyShoot = 0; // ready shoot at 0, if higher still in cooldown
-        private int fireCooldown = 50; // cooldown to shoot
-
-        // Flag to track if the player was moving in the previous frame
-        private bool wasMoving = false;
-
-        // projectile do player
-        private Texture2D projectileTexture;
-        public List<Projectile> ProjectilesP { get; private set; }
-
-        //tower
-        private Tower tower;
-
-
-        // Constructor
-        public Player(Texture2D texture, Vector2 Position)
+    private void InitializeAnimation()
+    {
+        timer = 0;
+        threshold = 100;
+        int currentRow = CurrentRow;
+        sourceRectangles = new Rectangle[6];
+        for (int i = 0; i < sourceRectangles.Length; i++)
         {
-            this.texture = texture;
-            position = Position;
-            ProjectilesP = new List<Projectile>();
-            InitializeAnimation();
+            int x = (i % framesPerRow) * frameWidth;
+            int y = currentRow * frameHeight;
+            sourceRectangles[i] = new Rectangle(x, y, frameWidth, frameHeight);
+        }
+        previousAnimationIndex = 2;
+        currentAnimationIndex = 1;
+    }
+
+    public void Update(GameTime gameTime, EntityManager entityManager)
+    {
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        KeyboardState keyboardState = Keyboard.GetState();
+        MouseState mouseState = Mouse.GetState();
+        Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+        Vector2 newPosition = position;
+        bool moved = false;
+
+        bool moveLeft = keyboardState.IsKeyDown(Keys.A);
+        bool moveRight = keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D);
+        bool moveUp = keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W);
+        bool moveDown = keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S);
+
+        #region movePlayer
+        if (moveLeft && moveUp)
+        {
+            newPosition.X -= speed * deltaTime;
+            newPosition.Y -= speed * deltaTime;
+            if (CurrentRow != 10)
+            {
+                CurrentRow = 10;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveLeft && moveDown)
+        {
+            newPosition.X -= speed * deltaTime;
+            newPosition.Y += speed * deltaTime;
+            if (CurrentRow != 4)
+            {
+                CurrentRow = 4;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveRight && moveDown)
+        {
+            newPosition.X += speed * deltaTime;
+            newPosition.Y += speed * deltaTime;
+            if (CurrentRow != 16)
+            {
+                CurrentRow = 16;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveRight && moveUp)
+        {
+            newPosition.X += speed * deltaTime;
+            newPosition.Y -= speed * deltaTime;
+            if (CurrentRow != 22)
+            {
+                CurrentRow = 22;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveLeft)
+        {
+            newPosition.X -= speed * deltaTime;
+            if (CurrentRow != 7)
+            {
+                CurrentRow = 7;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveRight)
+        {
+            newPosition.X += speed * deltaTime;
+            if (CurrentRow != 19)
+            {
+                CurrentRow = 19;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveUp)
+        {
+            newPosition.Y -= speed * deltaTime;
+            if (CurrentRow != 13)
+            {
+                CurrentRow = 13;
+                InitializeAnimation();
+            }
+            moved = true;
+        }
+        else if (moveDown)
+        {
+            newPosition.Y += speed * deltaTime;
+            if (CurrentRow != 1)
+            {
+                CurrentRow = 1;
+                InitializeAnimation();
+            }
+            moved = true;
         }
 
-        private void InitializeAnimation()
+        if (moved)
         {
-            timer = 0;
-            threshold = 100;
-            int currentRow = CurrentRow;
-            sourceRectangles = new Rectangle[6];
-            for (int i = 0; i < sourceRectangles.Length; i++)
+            position = newPosition;
+            UpdateAnimation(gameTime);
+            wasMoving = true;
+        }
+        else
+        {
+            if (wasMoving)
             {
-                int x = (i % framesPerRow) * frameWidth;
-                int y = currentRow * frameHeight;
-                sourceRectangles[i] = new Rectangle(x, y, frameWidth, frameHeight);
+                CurrentRow--;
+                InitializeAnimation();
+                wasMoving = false;
             }
-            previousAnimationIndex = 2;
-            currentAnimationIndex = 1;
+            UpdateAnimation(gameTime);
+        }
+#endregion
+
+        readyShoot -= 1;
+        if (keyboardState.IsKeyDown(Keys.Space) && readyShoot <= 0)
+        {
+            Shoot(mousePosition);
+            readyShoot = fireCooldown;
         }
 
-        public void Update(GameTime gameTime, EntityManager entityManager)
+        for (int i = ProjectilesP.Count - 1; i >= 0; i--)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            KeyboardState keyboardState = Keyboard.GetState();
-            Vector2 newPosition = position;
-            bool moved = false;
+            ProjectilesP[i].Update(gameTime);
+            if (!ProjectilesP[i].IsActive)
+            {
+                ProjectilesP.RemoveAt(i);
+            }
+        }
 
-            bool moveLeft = keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A);
-            bool moveRight = keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D);
-            bool moveUp = keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W);
-            bool moveDown = keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S);
+        CheckProjectileCollisions(entityManager.Entities);
 
-            // moviment of player
-            #region movPlayer
-            if (moveLeft && moveUp)
-            {
-                newPosition.X -= speed * deltaTime;
-                newPosition.Y -= speed * deltaTime;
-                if (CurrentRow != 10)
-                {
-                    CurrentRow = 10;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveLeft && moveDown)
-            {
-                newPosition.X -= speed * deltaTime;
-                newPosition.Y += speed * deltaTime;
-                if (CurrentRow != 4)
-                {
-                    CurrentRow = 4;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveRight && moveDown)
-            {
-                newPosition.X += speed * deltaTime;
-                newPosition.Y += speed * deltaTime;
-                if (CurrentRow != 16)
-                {
-                    CurrentRow = 16;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveRight && moveUp)
-            {
-                newPosition.X += speed * deltaTime;
-                newPosition.Y -= speed * deltaTime;
-                if (CurrentRow != 22)
-                {
-                    CurrentRow = 22;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveLeft)
-            {
-                newPosition.X -= speed * deltaTime;
-                if (CurrentRow != 7)
-                {
-                    CurrentRow = 7;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveRight)
-            {
-                newPosition.X += speed * deltaTime;
-                if (CurrentRow != 19)
-                {
-                    CurrentRow = 19;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveUp)
-            {
-                newPosition.Y -= speed * deltaTime;
-                if (CurrentRow != 13)
-                {
-                    CurrentRow = 13;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
-            else if (moveDown)
-            {
-                newPosition.Y += speed * deltaTime;
-                if (CurrentRow != 1)
-                {
-                    CurrentRow = 1;
-                    InitializeAnimation();
-                }
-                moved = true;
-            }
+        ProjectilesP.RemoveAll(p => !p.IsActive);
+    }
 
-            if (moved)
+    private void UpdateAnimation(GameTime gameTime)
+    {
+        timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+        if (timer > threshold)
+        {
+            if (currentAnimationIndex == 1)
             {
-                position = newPosition;
-                UpdateAnimation(gameTime);
-                wasMoving = true; // Player is moving
+                currentAnimationIndex = (previousAnimationIndex == 0) ? (byte)2 : (byte)0;
+                previousAnimationIndex = currentAnimationIndex;
             }
             else
             {
-                // Check if the player was moving in the previous frame
-                if (wasMoving)
-                {
-                    CurrentRow--; // Set to idle animation row
-                    InitializeAnimation();
-                    wasMoving = false; // Reset the flag
-                }
-                UpdateAnimation(gameTime);
+                currentAnimationIndex = 1;
             }
-            #endregion
-
-            // player shoot
-            var enemies = entityManager.Entities;
-            var target = GetClosestEnemy(enemies);
-            readyShoot -= 1;
-
-            if (keyboardState.IsKeyDown(Keys.Escape))
-            {
-                if (readyShoot <= 0)
-                {
-                    Shoot();
-                    readyShoot = fireCooldown;
-                }
-            }
-
-            // Update projectiles
-            for (int i = ProjectilesP.Count - 1; i >= 0; i--)
-            {
-                ProjectilesP[i].Update(gameTime);
-                if (!ProjectilesP[i].IsActive)
-                {
-                    ProjectilesP.RemoveAt(i);
-                }
-            }
-
-            CheckProjectileCollisions(enemies);
-
-            ProjectilesP.RemoveAll(p => !p.IsActive);
+            timer = 0;
         }
+    }
 
-        private void UpdateAnimation(GameTime gameTime)
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        Vector2 pos = position * 64;
+        Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
+        spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
+
+        foreach (var projectile in ProjectilesP)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (timer > threshold)
-            {
-                if (currentAnimationIndex == 1)
-                {
-                    currentAnimationIndex = (previousAnimationIndex == 0) ? (byte)2 : (byte)0;
-                    previousAnimationIndex = currentAnimationIndex;
-                }
-                else
-                {
-                    currentAnimationIndex = 1;
-                }
-                timer = 0;
-            }
+            projectile.Draw(spriteBatch);
         }
+    }
 
-        public void Draw(SpriteBatch spriteBatch)
+    private void Shoot(Vector2 targetPosition)
+    {
+        Vector2 direction = targetPosition / 64 - position;
+        direction.Normalize();
+
+        Vector2 projectileStartPosition = position * 64;
+        Projectile newProjectile = new Projectile(projectileTexture, projectileStartPosition, direction, 300f);
+        ProjectilesP.Add(newProjectile);
+    }
+
+    private void CheckProjectileCollisions(List<IEntity> enemies)
+    {
+        foreach (var projectile in ProjectilesP)
         {
-            Vector2 pos = position * 64; // Assuming tile size is 64
-            Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
-            spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
-            
-            // Desenha os projéteis
-            foreach (var projectile in ProjectilesP)
-            {
-                projectile.Draw(spriteBatch);
-            }
-        }
-
-        private void Shoot()
-        {
-            Vector2 direction = position;
-            direction.Normalize();
-            // codigo meu leonel
-            //Vector2 direction = new Vector2(1, 1);
-
-            Projectile newProjectile = new Projectile(projectileTexture, position, direction, 300f);
-            ProjectilesP.Add(newProjectile);
-        }
-
-        private void CheckProjectileCollisions(List<IEntity> enemies)
-        {
-            foreach (var projectile in ProjectilesP)
-            {
-                foreach (var enemy in enemies)
-                {
-                    if (projectile.Collider.Intersects(enemy.Collider))
-                    {
-                        enemy.TakeDamage(100); // example damage, adjust as needed
-                        projectile.IsActive = false;
-
-                        //if (enemy.Health <= 0)
-                        //{
-                        //    tower.Money += tower.moneyPerEnemy;
-                        //}
-
-                    }
-                }
-            }
-        }
-
-        private IEntity GetClosestEnemy(List<IEntity> enemies)
-        {
-            IEntity closestEnemy = null;
-            float closestDistance = Range;
-
             foreach (var enemy in enemies)
             {
-                if (enemy is Zombie zombie)
+                if (projectile.Collider.Intersects(enemy.Collider))
                 {
-                    float distance = Vector2.Distance(Position, zombie.Position);
-                    if (distance < closestDistance)
+                    enemy.TakeDamage(10); // example damage, adjust as needed
+                    projectile.IsActive = false;
+
+                    if (enemy.Health <= 0)
                     {
-                        closestDistance = distance;
-                        closestEnemy = zombie;
+                        Tower.Money += 1;
                     }
+
                 }
             }
-
-            return closestEnemy;
         }
     }
 }

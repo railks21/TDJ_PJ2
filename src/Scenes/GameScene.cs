@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 
 using System.Collections.Generic;
 using System.IO;
-using TDJ_PJ2.src.Entities;
 
 namespace TDJ_PJ2;
 
