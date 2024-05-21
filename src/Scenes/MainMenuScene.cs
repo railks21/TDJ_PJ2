@@ -24,7 +24,7 @@ public class MainMenuScene : IScene
     {
         _graphicsDevice = graphicsDevice;
 
-        m_Title = "The Horde";
+        m_Title = "TD Mage Empire";
         m_PlayText = "[ENTER] PLAY";
         m_SettingsText = "[S] SETTINGS";
         m_ScoresText = "[L] SCORE";
@@ -60,32 +60,27 @@ public class MainMenuScene : IScene
 
         MouseState mouseState = Mouse.GetState();
 
-        // Verifica se o botão esquerdo do mouse foi clicado
+        // Use Mouse click
         if (mouseState.LeftButton == ButtonState.Pressed)
         {
-            // Verifica se o clique do mouse ocorreu dentro da área do texto "Play"
             if (playHitbox.Contains(mouseState.Position))
             {
                 SceneChangeEvent?.Invoke(SceneType.Game);
             }
 
-            // Verifica se o clique do mouse ocorreu dentro da área do texto "Help"
             if (helpHitbox.Contains(mouseState.Position))
             {
                 SceneChangeEvent?.Invoke(SceneType.Help);
             }
 
-            // Verifica se o clique do mouse ocorreu dentro da área do texto "Credits"
             if (creditsHitbox.Contains(mouseState.Position))
             {
                 SceneChangeEvent?.Invoke(SceneType.Credits);
             }
 
-            // Verifica se o clique do mouse ocorreu dentro da área do texto "Exit"
             if (exitHitbox.Contains(mouseState.Position))
             {
-                // Ação a ser executada quando o texto "Exit" é clicado
-                // Por exemplo: fecha o jogo
+                // Action here
             }
         }
     }

@@ -14,7 +14,6 @@ public class EntityManager
     #endregion
 
     #region Consts
-    private const int PLAYER_HEALTH = 100;
     private const int HEALTH = 100;
     #endregion
 
@@ -29,10 +28,6 @@ public class EntityManager
         Entities = new List<IEntity>();
         Health = HEALTH;
 
-        /* Adding entities */
-        // Player
-        //Entities.Add(new Player(new Vector2(128.0f, Game1.ScreenHeight - 100.0f), AssetManager.Instance().GetSprite("Player"), 100));
-
         // Subscribing to events(doing a collision event here since the health for the barricade is here. Very bad design)
         Zombie.FinalDestionationEvent += FinalDestination;
     }
@@ -41,10 +36,9 @@ public class EntityManager
     #region Methods
     public void Update(GameTime gameTime)
     {
-        // Criando uma cópia da lista Entities
+        // Deleting the entity from the list if it's inactive
         List<IEntity> entitiesCopy = Entities.ToList();
 
-        // Deletando a entidade da lista se estiver inativa
         for (int i = 0; i < entitiesCopy.Count; i++)
         {
             if (!entitiesCopy[i].IsActive)
@@ -53,17 +47,17 @@ public class EntityManager
             }
         }
 
-        // Atualizando as entidades
+        // Updating the entities
         foreach (var entity in entitiesCopy)
         {
-            // Atualização para as colisões
+            // Update for the collisions
             entity.CollisionUpdate(Entities);
 
-            // Atualização normal da entidade
+            // Normal entity update
             entity.Update(gameTime);
         }
 
-        // Terminando o jogo uma vez que a barricada seja destruída
+        // Ending the game once the barricade is broken
         if (Health <= 0)
             SceneChangeEvent?.Invoke(SceneType.Over);
     }

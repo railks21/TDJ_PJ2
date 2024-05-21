@@ -6,6 +6,11 @@ namespace TDJ_PJ2
 {
     public class SpawnManager
     {
+        #region Events related
+        public delegate void SceneChange(SceneType sceneType);
+        public static event SceneChange SceneChangeEvent;
+        #endregion
+
         #region Consts
         // Basic zombie consts
         private const int BASIC_HEALTH = 40;
@@ -73,6 +78,10 @@ namespace TDJ_PJ2
         #region Methods
         public void Update(GameTime gameTime)
         {
+
+            if (Rounds > MaxRounds)
+                SceneChangeEvent?.Invoke(SceneType.Win);
+
             m_Timer += gameTime.ElapsedGameTime.Milliseconds;
 
             if (IsRoundActive == true && m_EntityManager.Entities.Count == 0)
@@ -195,7 +204,6 @@ namespace TDJ_PJ2
                     dx = 0;
                     dy = -1;
                     currentRow = 0; // Up
-                    
                 }
                 else
                 {

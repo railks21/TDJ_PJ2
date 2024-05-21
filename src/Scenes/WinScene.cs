@@ -1,30 +1,31 @@
-using Microsoft.Xna.Framework;
+ï»¿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace TDJ_PJ2;
 
-public class CreditsScene : IScene
+public class WinScene : IScene
 {
     #region Event related
     public delegate void SceneChange(SceneType sceneType);
     public static event SceneChange SceneChangeEvent;
     #endregion
-    
+
     #region Fields
-    private string m_Title, m_ToMenuText;
+    private string m_Title, m_RetryText, m_ToMenuText;
     private KeyboardState m_CurrentState, m_PreviousState;
-    private Rectangle pauseHitbox;
+    private Rectangle pauseHitbox, retryHitbox;
     private Texture2D backgroundTexture;
     private GraphicsDevice _graphicsDevice;
     #endregion
 
     #region Constructor
-    public CreditsScene(GraphicsDevice graphicsDevice)
+    public WinScene(GraphicsDevice graphicsDevice)
     {
         _graphicsDevice = graphicsDevice;
 
-        m_Title = "CREDITS";
+        m_Title = "CONGRATULATIONS";
+        m_RetryText = "[R] RETRY";
         m_ToMenuText = "[M] MENU";
 
         m_CurrentState = Keyboard.GetState();
@@ -41,19 +42,26 @@ public class CreditsScene : IScene
         m_PreviousState = m_CurrentState;
         m_CurrentState = Keyboard.GetState();
 
-        // From Credits to Menu
-        if(m_CurrentState.IsKeyDown(Keys.M) && m_PreviousState.IsKeyUp(Keys.M))
+        // Over to Game
+        if (m_CurrentState.IsKeyDown(Keys.R) && m_PreviousState.IsKeyUp(Keys.R))
+            SceneChangeEvent?.Invoke(SceneType.Game);
+        // Over to Menu
+        else if (m_CurrentState.IsKeyDown(Keys.M) && m_PreviousState.IsKeyUp(Keys.M))
             SceneChangeEvent?.Invoke(SceneType.Menu);
 
         MouseState mouseState = Mouse.GetState();
 
-        // Verifica se o botão esquerdo do mouse foi clicado
+        // Use Mouse click
         if (mouseState.LeftButton == ButtonState.Pressed)
         {
-            // Verifica se o clique do mouse ocorreu dentro da área do texto "Play"
             if (pauseHitbox.Contains(mouseState.Position))
             {
                 SceneChangeEvent?.Invoke(SceneType.Menu);
+            }
+
+            if (retryHitbox.Contains(mouseState.Position))
+            {
+                SceneChangeEvent?.Invoke(SceneType.Game);
             }
         }
     }
@@ -62,7 +70,6 @@ public class CreditsScene : IScene
     {
         SpriteFont largeFont = AssetManager.Instance().GetFont("Large");
         SpriteFont mediumFont = AssetManager.Instance().GetFont("Medium");
-        SpriteFont smallFont = AssetManager.Instance().GetFont("Small");
 
         // Draw background menu
         spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
@@ -70,23 +77,16 @@ public class CreditsScene : IScene
         // Title render
         spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.Black);
 
-        // CREDITS: Sprites 
-        spriteBatch.DrawString(smallFont, "Sprites: ", new Vector2(Game1.CenterText(smallFont, "Sprites: ").X, 100.0f), Color.Black);
-        spriteBatch.DrawString(smallFont, "Cornerlord", new Vector2(Game1.CenterText(smallFont, "Cornerlord").X, 130.0f), Color.Black);
-        spriteBatch.DrawString(smallFont, "Hypotis", new Vector2(Game1.CenterText(smallFont, "Hypotis").X, 160.0f), Color.Black);
-        spriteBatch.DrawString(smallFont, "Ocal", new Vector2(Game1.CenterText(smallFont, "Ocal").X, 190.0f), Color.Black);
-
-        // CREDITS: Sounds
-        spriteBatch.DrawString(smallFont, "Audio: ", new Vector2(Game1.CenterText(smallFont, "Audio: ").X, 250.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Michel Baradari", new Vector2(Game1.CenterText(smallFont, "Michel Baradari").X, 280.0f), Color.Black);
-        spriteBatch.DrawString(smallFont, "artisticdude", new Vector2(Game1.CenterText(smallFont, "artisticdude").X, 310.0f), Color.Black);
-        spriteBatch.DrawString(smallFont, "Independent.nu", new Vector2(Game1.CenterText(smallFont, "Independent.nu").X, 340.0f), Color.Black);
-
         Vector2 pauseTextPosition = Game1.CenterText(mediumFont, m_ToMenuText);
+        Vector2 retryTextPosition = Game1.CenterText(mediumFont, m_RetryText);
         pauseTextPosition.Y += 500.0f;
+        retryTextPosition.Y += 400.0f;
 
         // To menu text render
         spriteBatch.DrawString(mediumFont, m_ToMenuText, new Vector2(Game1.CenterText(mediumFont, m_ToMenuText).X, pauseTextPosition.Y), Color.Black);
+
+        // To game text retry
+        spriteBatch.DrawString(mediumFont, m_RetryText, new Vector2(Game1.CenterText(mediumFont, m_RetryText).X, retryTextPosition.Y), Color.Black);
 
         // Pause HitBox render
         pauseHitbox = new Rectangle(
@@ -94,6 +94,13 @@ public class CreditsScene : IScene
             (int)pauseTextPosition.Y,
             (int)mediumFont.MeasureString(m_ToMenuText).X,
             (int)mediumFont.MeasureString(m_ToMenuText).Y);
+
+        // Retry Hitbox render
+        retryHitbox = new Rectangle(
+            (int)Game1.CenterText(mediumFont, m_RetryText).X,
+            (int)retryTextPosition.Y,
+            (int)mediumFont.MeasureString(m_RetryText).X,
+            (int)mediumFont.MeasureString(m_RetryText).Y);
     }
     #endregion
 }
