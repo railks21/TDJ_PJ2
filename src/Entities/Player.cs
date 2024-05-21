@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,9 +8,10 @@ public class Player
 {
     private Vector2 position { get; set; }
     private Texture2D texture;
-    private float speed = 4f;
+    private float speed;
     public int CurrentRow { get; set; }
 
+    // Animation fields
     float timer;
     int threshold;
     Rectangle[] sourceRectangles;
@@ -61,6 +57,7 @@ public class Player
             int y = currentRow * frameHeight;
             sourceRectangles[i] = new Rectangle(x, y, frameWidth, frameHeight);
         }
+        
         previousAnimationIndex = 2;
         currentAnimationIndex = 1;
     }
@@ -256,6 +253,7 @@ public class Player
                     enemy.TakeDamage(10); // example damage, adjust as needed
                     projectile.IsActive = false;
 
+<<<<<<< HEAD
                     if (enemy.Health <= 0)
                     {
                         Tower.Money += 1;
@@ -263,6 +261,12 @@ public class Player
 
                 }
             }
+=======
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Vector2 pos = position; // Player position is already in world coordinates
+            spriteBatch.Draw(texture, pos, sourceRectangles[currentAnimationIndex], Color.White);
+>>>>>>> master
         }
     }
 }
