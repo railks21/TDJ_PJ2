@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
+using TDJ_PJ2.src.Entities;
 
 namespace TDJ_PJ2
 {
@@ -23,12 +24,17 @@ namespace TDJ_PJ2
         public char[,] level;
 
         private KeyboardState m_CurrentState, m_PreviousState;
-        private Texture2D floor, path;
+        private Texture2D floor, path, player1;
         private GraphicsDevice _graphicsDevice;
         private GraphicsDeviceManager _graphics;
         private List<Point> boxes;
         private EntityManager Entities;
         private SpawnManager Spawner;
+
+        //player
+        private Player player;
+        private Vector2 playerPosition;
+
         #endregion
 
         #region Constructor
@@ -47,6 +53,7 @@ namespace TDJ_PJ2
             // Render texture background
             floor = AssetManager.Instance().GetTile("Grass");
             path = AssetManager.Instance().GetTile("WitheredGrass");
+            player1 = AssetManager.Instance().GetSprite("Player1");
 
             _graphics = graphics;
 
@@ -77,6 +84,9 @@ namespace TDJ_PJ2
 
             // Update the EntityManager
             Entities.Update(gameTime);
+
+            // Player
+            player.Update(gameTime);
         }
 
         public void Render(SpriteBatch spriteBatch)
@@ -95,16 +105,10 @@ namespace TDJ_PJ2
 
                     switch (level[x, y])
                     {
-                        case '#':
+                        case '#' or 'P':
                             spriteBatch.Draw(floor, position, Color.White);
                         break;
-                        case 'C':
-                            spriteBatch.Draw(path, position, Color.White);
-                        break;
-                        case 'S':
-                            spriteBatch.Draw(path, position, Color.White);
-                        break;
-                        case 'F':
+                        case 'C' or 'S' or 'F' :
                             spriteBatch.Draw(path, position, Color.White);
                         break;
                     }
@@ -121,6 +125,9 @@ namespace TDJ_PJ2
 
             // Pause menu
             if (m_IsPaused) PauseMenu(spriteBatch);
+
+            //Player 
+            player.Draw(spriteBatch);
         }
 
         public void LoadLevel(string levelFile)
@@ -137,6 +144,14 @@ namespace TDJ_PJ2
                 for (int y = 0; y < nrLinhas; y++)
                 {
                     level[x, y] = linhas[y][x];
+
+                    //player
+                    if (linhas[y][x] == 'P')
+                    {
+                        playerPosition = new Vector2(x, y);
+                        player = new Player(player1,playerPosition);
+                    }
+
                 }
             }
         }
