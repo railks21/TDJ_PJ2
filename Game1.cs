@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,6 +11,7 @@ namespace TDJ_PJ2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private ContentManager _contentManager;
 
         #region Utility variables
         public static int ScreenWidth;
@@ -57,7 +59,7 @@ namespace TDJ_PJ2
             Tiles = new TileManager();
 
             // Scenes init
-            Scenes = new SceneManager(GraphicsDevice, _graphics);
+            Scenes = new SceneManager(GraphicsDevice, _graphics, _contentManager);
 
             // TODO: use this.Content to load your game content here
         }

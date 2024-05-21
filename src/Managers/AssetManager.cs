@@ -55,6 +55,8 @@ public sealed class AssetManager
         m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Mage_Sheet"));
 
         m_SpriteDict.Add("ZombieG", content.Load<Texture2D>("Sprites/zombieG"));
+        m_SpriteDict.Add("Turret", content.Load<Texture2D>("Sprites/turret"));
+        m_SpriteDict.Add("TurretBullet", content.Load<Texture2D>("Sprites/turretBullet"));
     }
 
     // Loads only the tiles
@@ -69,6 +71,7 @@ public sealed class AssetManager
         m_TileDict.Add("Rock", content.Load<Texture2D>("Tiles/rock"));
         m_TileDict.Add("WitheredBush", content.Load<Texture2D>("Tiles/withered_bush"));
         m_TileDict.Add("WitheredGrass", content.Load<Texture2D>("Tiles/withered_grass"));
+        m_TileDict.Add("SideImage", content.Load<Texture2D>("Background/sideImage"));
     }
 
     // Loads only the sounds
