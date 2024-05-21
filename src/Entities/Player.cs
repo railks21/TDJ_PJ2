@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace TDJ_PJ2.src.Entities
+namespace TDJ_PJ2
 {
     public class Player
     {
         // Player position
-        private Vector2 position { get; set; }
+        public Vector2 position { get; set; }
 
         // Player texture
         private Texture2D texture;
 
-        private float speed = 4f;
+        private float speed = 400f;
 
         public int CurrentRow { get; set; }
 
@@ -194,9 +189,8 @@ namespace TDJ_PJ2.src.Entities
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 pos = position * 64; // Assuming tile size is 64
-            Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));
-            spriteBatch.Draw(texture, rect, sourceRectangles[currentAnimationIndex], Color.White);
+            Vector2 pos = position; // Player position is already in world coordinates
+            spriteBatch.Draw(texture, pos, sourceRectangles[currentAnimationIndex], Color.White);
         }
     }
 }

@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using System;
-
 namespace TDJ_PJ2
 {
     public class Game1 : Game
@@ -21,6 +19,8 @@ namespace TDJ_PJ2
         #region Managers
         public TileManager Tiles;
         public SceneManager Scenes;
+
+        private Camera camera;
         #endregion
 
         public Game1()
@@ -32,8 +32,6 @@ namespace TDJ_PJ2
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             // Utility variables init
             ScreenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             ScreenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -42,6 +40,9 @@ namespace TDJ_PJ2
             Window.Position = Point.Zero;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
+
+            // Initialize camera with starting position
+            camera = new Camera(GraphicsDevice, Vector2.Zero);
 
             _graphics.ApplyChanges();
 
@@ -69,7 +70,11 @@ namespace TDJ_PJ2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // Update camera to follow player (camera will be updated in GameScene)
+            if (Scenes.CurrentScene is GameScene gameScene)
+            {
+                camera.Follow(gameScene.GetPlayerPosition());
+            }
 
             Scenes.Update(gameTime);
 
@@ -80,19 +85,13 @@ namespace TDJ_PJ2
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // Rendering stuff here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: camera.TransformMatrix);
 
-            #region Managers render
-            // Tiles render
+            // Managers render
             Tiles.Render(_spriteBatch);
-
-            // Scenes render
             Scenes.Render(_spriteBatch);
-            #endregion
 
             _spriteBatch.End();
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
