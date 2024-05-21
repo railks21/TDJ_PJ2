@@ -54,22 +54,22 @@ public class CreditsScene : IScene
         spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
 
         // Title render
-        spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.CadetBlue);
+        spriteBatch.DrawString(largeFont, m_Title, new Vector2(Game1.CenterText(largeFont, m_Title).X, 10.0f), Color.Black);
 
         // CREDITS: Sprites 
-        spriteBatch.DrawString(smallFont, "Sprites: ", new Vector2(Game1.CenterText(smallFont, "Sprites: ").X, 100.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Cornerlord", new Vector2(Game1.CenterText(smallFont, "Cornerlord").X, 130.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Hypotis", new Vector2(Game1.CenterText(smallFont, "Hypotis").X, 160.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Ocal", new Vector2(Game1.CenterText(smallFont, "Ocal").X, 190.0f), Color.Blue);
+        spriteBatch.DrawString(smallFont, "Sprites: ", new Vector2(Game1.CenterText(smallFont, "Sprites: ").X, 100.0f), Color.Black);
+        spriteBatch.DrawString(smallFont, "Cornerlord", new Vector2(Game1.CenterText(smallFont, "Cornerlord").X, 130.0f), Color.Black);
+        spriteBatch.DrawString(smallFont, "Hypotis", new Vector2(Game1.CenterText(smallFont, "Hypotis").X, 160.0f), Color.Black);
+        spriteBatch.DrawString(smallFont, "Ocal", new Vector2(Game1.CenterText(smallFont, "Ocal").X, 190.0f), Color.Black);
 
         // CREDITS: Sounds
         spriteBatch.DrawString(smallFont, "Audio: ", new Vector2(Game1.CenterText(smallFont, "Audio: ").X, 250.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Michel Baradari", new Vector2(Game1.CenterText(smallFont, "Michel Baradari").X, 280.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "artisticdude", new Vector2(Game1.CenterText(smallFont, "artisticdude").X, 310.0f), Color.Blue);
-        spriteBatch.DrawString(smallFont, "Independent.nu", new Vector2(Game1.CenterText(smallFont, "Independent.nu").X, 340.0f), Color.Blue);
+        spriteBatch.DrawString(smallFont, "Michel Baradari", new Vector2(Game1.CenterText(smallFont, "Michel Baradari").X, 280.0f), Color.Black);
+        spriteBatch.DrawString(smallFont, "artisticdude", new Vector2(Game1.CenterText(smallFont, "artisticdude").X, 310.0f), Color.Black);
+        spriteBatch.DrawString(smallFont, "Independent.nu", new Vector2(Game1.CenterText(smallFont, "Independent.nu").X, 340.0f), Color.Black);
 
         // To menu text render
-        spriteBatch.DrawString(mediumFont, "[M] MENU", new Vector2(Game1.CenterText(mediumFont, "[M] MENU").X, 420.0f), Color.CadetBlue);
+        spriteBatch.DrawString(mediumFont, "[M] MENU", new Vector2(Game1.CenterText(mediumFont, "[M] MENU").X, 420.0f), Color.Black);
     }
     #endregion
 }

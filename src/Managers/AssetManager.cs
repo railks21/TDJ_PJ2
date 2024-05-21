@@ -45,14 +45,18 @@ public sealed class AssetManager
     // Loads only the sprites
     public void LoadSprites(ContentManager content)
     {
-        m_SpriteDict.Add("Player", content.Load<Texture2D>("Sprites/player"));
+        //m_SpriteDict.Add("Player", content.Load<Texture2D>("Sprites/player"));
         m_SpriteDict.Add("BasicZombie", content.Load<Texture2D>("Sprites/basic_zombie"));
         m_SpriteDict.Add("DenizenZombie", content.Load<Texture2D>("Sprites/denizen_zombie"));
         m_SpriteDict.Add("BruteZombie", content.Load<Texture2D>("Sprites/brute_zombie"));
         m_SpriteDict.Add("Bullet", content.Load<Texture2D>("Sprites/pistol_bullet"));
         m_SpriteDict.Add("Shell", content.Load<Texture2D>("Sprites/shootgun_shell"));
 
+        m_SpriteDict.Add("Player1", content.Load<Texture2D>("Sprites/Mage_Sheet"));
+
         m_SpriteDict.Add("ZombieG", content.Load<Texture2D>("Sprites/zombieG"));
+        m_SpriteDict.Add("Turret", content.Load<Texture2D>("Sprites/turret"));
+        m_SpriteDict.Add("TurretBullet", content.Load<Texture2D>("Sprites/turretBullet"));
     }
 
     // Loads only the tiles
@@ -67,6 +71,7 @@ public sealed class AssetManager
         m_TileDict.Add("Rock", content.Load<Texture2D>("Tiles/rock"));
         m_TileDict.Add("WitheredBush", content.Load<Texture2D>("Tiles/withered_bush"));
         m_TileDict.Add("WitheredGrass", content.Load<Texture2D>("Tiles/withered_grass"));
+        m_TileDict.Add("SideImage", content.Load<Texture2D>("Background/sideImage"));
     }
 
     // Loads only the sounds
