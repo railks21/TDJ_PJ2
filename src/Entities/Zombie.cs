@@ -61,13 +61,14 @@ public class Zombie : DynamicEntity
         m_Speed = Spawner.Speed;
         CurrentRow = currentRow;
 
-        // Determine which of the zombie types it is from the texture
-        if (texture == AssetManager.Instance().GetSprite("BasicZombie"))
-            Type = ZombieType.Basic;
-        else if (texture == AssetManager.Instance().GetSprite("BruteZombie"))
-            Type = ZombieType.Brute;
-        else
-            Type = ZombieType.Denizen;
+        // Futures Implementations
+        //// Determine which of the zombie types it is from the texture
+        //if (texture == AssetManager.Instance().GetSprite("BasicZombie"))
+        //    Type = ZombieType.Basic;
+        //else if (texture == AssetManager.Instance().GetSprite("BruteZombie"))
+        //    Type = ZombieType.Brute;
+        //else
+        //    Type = ZombieType.Denizen;
 
         // Adding the final point for collision
         for (int x = 0; x < m_Map.GetLength(0); x++)

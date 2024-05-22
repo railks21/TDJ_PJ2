@@ -169,22 +169,6 @@ public class MainMenuScene : IScene
             (int)exitTextPosition.Y,
             (int)mediumFont.MeasureString(m_ExitText).X,
             (int)mediumFont.MeasureString(m_ExitText).Y);
-
-        // Draw HitBoxes
-        //DrawHitbox(spriteBatch, playHitbox, Color.Red);
-        //DrawHitbox(spriteBatch, settingsHitbox, Color.Orange);
-        //DrawHitbox(spriteBatch, scoreHitbox, Color.Pink);
-        //DrawHitbox(spriteBatch, helpHitbox, Color.Green);
-        //DrawHitbox(spriteBatch, creditsHitbox, Color.Blue);
-        //DrawHitbox(spriteBatch, exitHitbox, Color.Yellow);
     }
-
-    //private void DrawHitbox(SpriteBatch spriteBatch, Rectangle hitbox, Color color)
-    //{
-    //    Texture2D pixel = new Texture2D(_graphicsDevice, 1, 1);
-    //    pixel.SetData(new[] { color });
-
-    //    spriteBatch.Draw(pixel, hitbox, color);
-    //}
     #endregion
 }

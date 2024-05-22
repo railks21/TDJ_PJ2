@@ -25,7 +25,6 @@ public class SceneManager
     #region Constructor
     public SceneManager(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics, ContentManager contentManager)
     {
-        //Score = new ScoreManager();
         _graphicsDevice = graphicsDevice;
         _graphics = graphics;
         _contentManager = contentManager;
