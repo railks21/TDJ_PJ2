@@ -15,7 +15,7 @@ Um jogo onde deves defender defender te dos inimigos que se aproximam do final d
 
 Todo o jogo é controlado através do teclado e rato, incluído o menu.
 
-Para jogar é utilizado o `A`, `W`, `S` e o `D` ou `Teclas das setas` ou `Rato`. Para disparar `Espaço`.
+Para jogar é utilizado o `A`, `W`, `S` e o `D` ou `Teclas das setas` e `Rato`. Para disparar `Espaço`.
 
 Outros controlos. `R` recomeçar um novo jogo, unicamente no ecrã de fim de jogo. `P` para colocar o jogo em pausa e retomar de pausa.
 
@@ -59,8 +59,9 @@ O tamanho do ecrã é definido por `2 variáveis`, ou seja, não é algo que se 
         base.Initialize();
     }
 ```
+<br>
 
-Imagem do jogo
+![Screenshot_4](https://github.com/railks21/TDJ_PJ2/assets/75589500/985b75b8-88b5-4c3a-b0be-29adb0c688dd)
 
 Como podemos ver o tamanho do ecrâ ocupa a tela por completo, também podemos reparar que o jogo tem uma imagem de fundo e o `menu`.
 
@@ -92,7 +93,28 @@ As `Entities` são os objetos que vão interagir dentro do cenário, nos quais s
 As animações do `Player` e do `Zombie` utilizam `Sprite sheet` para fazer as animações.
 
 `Player`
+<br>
 ![Mage_Sheet](https://github.com/railks21/TDJ_PJ2/assets/75589500/27aaa615-6000-4ddc-9cba-4af544173a62)
 
 `Zombie`
+<br>
 ![zombieG](https://github.com/railks21/TDJ_PJ2/assets/75589500/74c56418-94a4-4436-8a23-d6b46505b7bb)
+
+
+# Conclusão
+
+Melhorias
+<ul>
+    <li>Som</li>
+    <li>Pontuação</li>
+    <li>Definições para volume</li>
+    <li>Guardar a pontuação</li>
+    <li>O Jogador colidir com as bordas do mapa</li>
+    <li>O zombie ficar alinhado com o caminho a percorrer</li>
+    <li>Adicionar mais Torres, Níveis, Inimigos</li>
+</ul>
+
+
+Ao longo do desenvolvimento do projeto aprendemos várias vertentes, foi bastante complexo e dificil de desenvolver um Tower Defense, pois é um jogo complexo e com bastantes funcionalidades.
+Damos como conluído este projeto.
+
