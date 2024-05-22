@@ -29,11 +29,11 @@ Como também a organização das `pastas` de cada classe que representa cada ele
 
 <strong>Estrutura das `pastas`</strong>
 
-![Screenshot_2](https://github.com/Vulpix98/Monogame-School-Project-1/assets/75589500/1b1eba02-8157-4d9e-9681-0706071ef994)
+![Screenshot_2](https://github.com/railks21/TDJ_PJ2/assets/75589500/ab45f177-c22f-424d-b4b1-85c801ce65eb)
 
 <strong>Exemplo de um `ficheiro de código`</strong>
 
-![Screenshot_3](https://github.com/Vulpix98/Monogame-School-Project-1/assets/75589500/a61e14c9-600a-4c74-8f5c-678a194a77e4)
+![Screenshot_3](https://github.com/railks21/TDJ_PJ2/assets/75589500/36ca21bb-7f15-40ff-bce9-1ad42c2bb3f7)
 
 # Fatores do jogo
 
@@ -86,3 +86,13 @@ As `Entities` são os objetos que vão interagir dentro do cenário, nos quais s
 <strong>`Tower`</strong> a `Torre` é o objeto em que só vai ser usado quando o `Jogador` arrastar o mesmo para dentro do mapa. A `Torre`como já havia falado também vai disparar projéteis e os mesmo irão colidir com o inimigo.
 
 <strong>`Zombie`</strong> o `Zombie` é o inimigo do jogo, o mesmo vai se mover ao longo de um caminho, e o objetivo do mesmo é chegar ao final do trajeto. O mesmo também utliza `Sprite Sheet` que vai ser responsável por dar animação de movimento ao `Zombie`.
+
+# Animações
+
+As animações do `Player` e do `Zombie` utilizam `Sprite sheet` para fazer as animações.
+
+`Player`
+![Mage_Sheet](https://github.com/railks21/TDJ_PJ2/assets/75589500/27aaa615-6000-4ddc-9cba-4af544173a62)
+
+`Zombie`
+![zombieG](https://github.com/railks21/TDJ_PJ2/assets/75589500/74c56418-94a4-4436-8a23-d6b46505b7bb)
