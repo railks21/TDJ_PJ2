@@ -17,7 +17,6 @@ namespace TDJ_PJ2
         #endregion
 
         #region Managers
-        public TileManager Tiles;
         public SceneManager Scenes;
 
         private Camera _camera;
@@ -49,7 +48,6 @@ namespace TDJ_PJ2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.Instance().LoadAssets(Content);
 
-            Tiles = new TileManager();
             Scenes = new SceneManager(GraphicsDevice, _graphics, _contentManager);
 
             // Inicialize a câmera com um zoom inicial
@@ -95,7 +93,6 @@ namespace TDJ_PJ2
 
             _spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
 
-            Tiles.Render(_spriteBatch);
             Scenes.Render(_spriteBatch);
 
             _spriteBatch.End();

@@ -48,6 +48,32 @@ public class Player
 
     private void InitializeAnimation()
     {
+        // Current Row
+        //0 - idle  down - idle
+        //1 - down - andar
+        //2 - down - disparar
+        //3 - down - left - idle
+        //4 - down.left - andar
+        //5 - down - left - disparar
+        //6 - left - idle
+        //7 - left - andar
+        //8 - left - disparar
+        //9 - left - up - idle
+        //10 - left - up - andar
+        //11 - left - up - disparar
+        //12 - up - idle
+        //13 - up - andar
+        //14 - up - disparar
+        //15 - down - right - idle
+        //16 - down - right - andar
+        //17 - down - right - disparar
+        //18 - right - idle
+        //19 - right - andar
+        //20 - right - disparar
+        //21 - up - right - idle
+        //22 - up - right - andar
+        //23 - up - right - disparar
+
         timer = 0;
         threshold = 100;
         int currentRow = CurrentRow;

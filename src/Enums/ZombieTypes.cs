@@ -4,7 +4,8 @@ namespace TDJ_PJ2;
 
 public enum ZombieType
 {
-    Basic,
-    Brute,
-    Denizen
+    Basic
+    // Futures Implementations
+    //Brute,
+    //Denizen
 }

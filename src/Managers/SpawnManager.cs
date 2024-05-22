@@ -132,24 +132,26 @@ namespace TDJ_PJ2
                 // Spawn either a basic or a brute zombie, depending on the spawn counter
                 if (m_SpawnCounter % 5 == 0)
                 {
+                    
+                        Rectangle hitBox = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, 64, 64);
+                        m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X, spawnPoint.Y),
+                                                                AssetManager.Instance().GetSprite("BasicZombie"),
+                                                                BASIC_HEALTH,
+                                                                BASIC_DAMAGE,
+                                                                BASIC_SPEED,
+                                                                pathPoints,
+                                                                m_Map,
+                                                                currentRow));
+                    
+                }
+                else
+                {
                     Rectangle hitBox = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, 64, 64);
                     m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X, spawnPoint.Y),
                                                             AssetManager.Instance().GetSprite("BruteZombie"),
                                                             BRUTE_HEALTH,
                                                             BRUTE_DAMAGE,
                                                             BRUTE_SPEED,
-                                                            pathPoints,
-                                                            m_Map,
-                                                            currentRow));
-                }
-                else
-                {
-                    Rectangle hitBox = new Rectangle((int)spawnPoint.X, (int)spawnPoint.Y, 64, 64);
-                    m_EntityManager.Entities.Add(new Zombie(new Vector2(spawnPoint.X, spawnPoint.Y),
-                                                            AssetManager.Instance().GetSprite("BasicZombie"),
-                                                            BASIC_HEALTH,
-                                                            BASIC_DAMAGE,
-                                                            BASIC_SPEED,
                                                             pathPoints,
                                                             m_Map,
                                                             currentRow));
