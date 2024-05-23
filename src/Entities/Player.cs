@@ -14,14 +14,14 @@ namespace TDJ_PJ2.src.Entities
     {
         Up, Down, Left, Right // 0, 1, 2, 3
     }
-    public class Player
+    public class Player:GameScene
     {
         // Player position
         private Point position;
 
         // Player texture
         private Texture2D texture;
-        private GameScene gameScene;
+        //private GameScene gameScene;
 
         // Constructor
         public Player(Texture2D texture, int x, int y)
@@ -33,8 +33,8 @@ namespace TDJ_PJ2.src.Entities
         public void Draw(SpriteBatch sb) 
         {
             // codigo que devia funcionar, gameScene.tileSize = 64
-            Vector2 pos = position.ToVector2() * gameScene.tileSize;
-            Rectangle rect = new Rectangle(pos.ToPoint(), new Point(gameScene.tileSize));
+            Vector2 pos = position.ToVector2() * tileSize;
+            Rectangle rect = new Rectangle(pos.ToPoint(), new Point(tileSize));
 
             //Vector2 pos = position.ToVector2() * 64;
             //Rectangle rect = new Rectangle(pos.ToPoint(), new Point(64));

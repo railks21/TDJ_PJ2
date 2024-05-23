@@ -45,6 +45,8 @@ namespace TDJ_PJ2
         #endregion
 
         #region Constructor
+
+        public GameScene() { }  
         public GameScene(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics)
         {
             _graphicsDevice = graphicsDevice;
